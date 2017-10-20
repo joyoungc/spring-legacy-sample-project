@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 로그 설정 -->
+	<property name="COMPONENT_ID" value="springlegacy" />
+	<property name="LOG_HOME" value="/projectlog/${COMPONENT_ID}/service" />   
+	<property name="ERROR_LOG_HOME" value="/projectlog/${COMPONENT_ID}/error" />
+	
+	<property name="ERROR_LOG_PATTERN"    value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %msg%n" /> 	
+	<property name="SERVICE_LOG_PATTERN"  value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%logger{36}] - %msg%n" /> 
+	
+	<!-- 배포환경 설정 임포트(import) -->
+	<include resource="config/log/logback-${env}.xml" />
+</configuration>

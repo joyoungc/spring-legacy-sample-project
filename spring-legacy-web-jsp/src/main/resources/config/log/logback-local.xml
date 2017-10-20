@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+	<!-- ============================================================ -->
+    <!-- Log Appender 설정 -->
+	<!-- ============================================================ -->    
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${SERVICE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>	
+	<!-- ============================================================ -->
+    <!-- Service Log 설정 -->
+	<!-- ============================================================ -->
+	<!-- framework logger -->	
+	<logger name="org.springframework.web" level="INFO" additivity="false"> 
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="org.springframework.jdbc" level="DEBUG" additivity="false"> 
+		<appender-ref ref="STDOUT" />
+	</logger>	
+	<logger name="org.springframework.transaction" level="DEBUG" additivity="false"> 
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="org.apache.ibatis" level="DEBUG" additivity="false"> 
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<!-- 	
+	<logger name="org.apache.http" level="SECURITY" additivity="false"> 
+		<appender-ref ref="STDOUT" />
+	</logger> 
+	-->
+	  	
+	<!-- Application Logger -->	
+	<logger name="io.github.joyoungc" level="DEBUG" additivity="false"> 
+		<appender-ref ref="STDOUT" />
+	</logger> 	
+	<root level="DEBUG">  
+		<appender-ref ref="STDOUT" />  
+	</root>
+</included>
