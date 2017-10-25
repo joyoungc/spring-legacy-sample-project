@@ -1,3 +1,4 @@
 /target/
-/src/main/webapp/resources/
-/src/main/webapp/WEB-INF/jsp/
+.settings/
+.classpath
+.project

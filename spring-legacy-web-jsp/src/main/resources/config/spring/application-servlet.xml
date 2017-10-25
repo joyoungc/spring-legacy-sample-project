@@ -10,9 +10,6 @@
      	   http://www.springframework.org/schema/mvc
            http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
             
-	<!-- 기본 환경설정용 properties 파일을 읽는 설정 -->
-	<context:property-placeholder location="classpath:/config/config-#{systemProperties['env']}.properties" /> 
-	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:component-scan base-package="io.github.joyoungc" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
@@ -31,14 +28,13 @@
 				</property>
 			</bean>
 		</mvc:message-converters>
-	
-		<!-- 		
-		<mvc:argument-resolvers>  
+		<!--
+		<mvc:argument-resolvers>
 			<bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver">
 				<property name="oneIndexedParameters" value="true"/>
 			</bean>
 			<bean class="org.springframework.data.web.SortHandlerMethodArgumentResolver" />
-		</mvc:argument-resolvers> 
+		</mvc:argument-resolvers>
 		-->
 		 
 	</mvc:annotation-driven>  

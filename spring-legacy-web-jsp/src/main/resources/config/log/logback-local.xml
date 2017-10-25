@@ -29,11 +29,15 @@
 		<appender-ref ref="STDOUT" />
 	</logger> 
 	-->
+	<logger name="org.springframework.batch" level="DEBUG" additivity="false"> 
+		<appender-ref ref="STDOUT" />
+	</logger>	
 	  	
 	<!-- Application Logger -->	
 	<logger name="io.github.joyoungc" level="DEBUG" additivity="false"> 
 		<appender-ref ref="STDOUT" />
-	</logger> 	
+	</logger>
+	
 	<root level="DEBUG">  
 		<appender-ref ref="STDOUT" />  
 	</root>

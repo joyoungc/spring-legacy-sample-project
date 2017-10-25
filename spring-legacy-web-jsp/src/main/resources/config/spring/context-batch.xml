@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+	<bean id="jobRepository" init-method="" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="databaseType" value="${jdbc.database.type}" />		
+		<property name="isolationLevelForCreate" value="ISOLATION_REPEATABLE_READ" />
+		<property name="tablePrefix" value="${spring.batch.table.prefix}" />
+		<property name="maxVarCharLength" value="1000" />
+	</bean> 
+	
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	<!-- To enable support for @Scheduled and @Async annotations -->
+	<task:annotation-driven executor="taskExecutor" scheduler="scheduler"/>
+	
+	<!-- The following will create a ThreadPoolTaskExecutor instance -->
+	<task:executor id="taskExecutor" pool-size="${spring.task.pool.size}"/>
+    
+    <!-- The following element will create a ThreadPoolTaskScheduler instance with the specified thread pool size. -->
+	<task:scheduler id="scheduler" pool-size="${spring.task.pool.size}"/>
+	
+</beans>

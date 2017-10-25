@@ -8,9 +8,12 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/util 
-		http://www.springframework.org/schema/util/spring-util.xsd"> 
-	<!-- 기본 환경설정용 properties 파일을 읽는 설정 -->
+		http://www.springframework.org/schema/util/spring-util.xsd">
+		 
+	<!-- 기본 환경설정용 properties 파일 설정(default : local) -->
+	<!-- <util:properties id="config" location="classpath:/config/config-${systemProperties['env']:local}.properties" /> -->
 	<util:properties id="config" location="classpath:/config/config-#{systemProperties['env']}.properties" />
+	<!-- <util:properties id="config" location="classpath:/config/config-local.properties" /> -->
 	
 	<context:component-scan base-package="io.github.joyoungc.web" use-default-filters="false">
 	 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
@@ -21,6 +24,10 @@
 	
 	<context:property-placeholder properties-ref="config" />
    
+   	<!-- Spring 관련 xml configuration 임포트 -->
 	<import resource="classpath:/config/spring/context-*.xml" />
+	
+	<!-- Spring Batch 관련 job xml configuration 임포트 -->
+	<import resource="classpath:/config/batch/job/**/job-*.xml" />
 	
 </beans>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/batch
+           http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+           
+	<!-- ================================================================= -->
+	<!-- @Desc admin 관련 job 설정 xml -->
+	<!-- @author 정조영 (2017.10.24) -->
+	<!-- ================================================================= -->
+
+	<!-- Admin 배치 Job -->
+	<batch:job id="adminJob">
+		<batch:step id="adminStep1">
+			<batch:tasklet>
+				<batch:chunk reader="adminItemReader" processor="adminItemProcessor" writer="adminItemWriter" commit-interval="10">
+				</batch:chunk>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<!-- 배치 처리를 할 대상 Data 조회 -->
+	<bean id="adminItemReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader" scope="step">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="queryId" value="io.github.joyoungc.web.admin.dao.AdminDao.selectAdmins" />
+		<property name="parameterValues">
+			<map>
+				<entry key="statusCodeComplete" value="#{jobParameters['statusCodeComplete']}" />
+			</map>
+		</property>
+		<property name="pageSize" value="10"></property>
+	</bean>
+
+	<!-- 상태 변경 -->
+	<!--
+	<bean id="adminItemWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter" scope="step">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="assertUpdates" value="false" />
+		<property name="statementId" value="io.github.joyoungc.bat.commerce.dao.impl.CommerceDaoImpl.updateConfirmedOrder" />
+	</bean>
+	-->
+	<bean id="adminItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+		<property name="resource" value="#{jobParameters['outputFile']}" />
+		<property name="shouldDeleteIfExists" value="true" />
+		<property name="lineAggregator">
+			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="▦" />
+				<property name="fieldExtractor">
+					<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names" value="adminName, password, enabled" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+
+</beans>

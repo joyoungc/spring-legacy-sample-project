@@ -9,6 +9,9 @@
 	<name>spring-legacy-web-jsp</name>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
 		<java.version>1.8</java.version>
 		<spring.version>4.3.12.RELEASE</spring.version>
 		<spring-security.version>4.2.3.RELEASE</spring-security.version>
@@ -19,6 +22,9 @@
 		<modelmapper.version>1.1.0</modelmapper.version>
 		<maven-war-plugin.version>2.6</maven-war-plugin.version>
 		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+		<mybatis.version>3.4.5</mybatis.version>
+        <mybatis-spring.version>1.3.1</mybatis-spring.version>
+   		<json-path.version>2.2.0</json-path.version>		
 	</properties>
 
 	<repositories></repositories>
@@ -75,6 +81,38 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${spring.version}</version>
+		    <scope>test</scope>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		    <scope>test</scope>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>org.hamcrest</groupId>
+		            <artifactId>hamcrest-core</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>org.hamcrest</groupId>
+		    <artifactId>hamcrest-library</artifactId>
+		    <version>1.3</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>${json-path.version}</version>
+		</dependency>
 		
      	<!-- Spring Security -->
         <dependency>
@@ -93,7 +131,21 @@
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-taglibs</artifactId>
 		    <version>${spring-security.version}</version>
-		</dependency>        
+		</dependency>
+		
+		<!-- Spring Batch -->
+		<dependency>
+		    <groupId>org.springframework.batch</groupId>
+		    <artifactId>spring-batch-core</artifactId>
+		    <version>${spring-batch.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-test</artifactId>
+			<version>${spring-batch.version}</version>
+			<scope>test</scope>
+		</dependency>		
 		
 		<!-- Json -->
 		<dependency>
@@ -137,14 +189,14 @@
 			<artifactId>spring-jdbc</artifactId> 
 			<version>${spring.version}</version>
 		</dependency>
+		
 		<!-- # Oracle DB -->
-		<!-- 	
 		<dependency> 
 			<groupId>com.oracle</groupId> 
 			<artifactId>ojdbc6</artifactId> 
-			<version>11.2.0.3</version> 
+			<version>11.2.0</version> 
 		</dependency>
-		-->
+		
 		<!-- # 테스트용 memory DB -->
 		<dependency> 
 			<groupId>com.h2database</groupId> 
@@ -157,13 +209,13 @@
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
-			<version>3.4.5</version>
+			<version>${mybatis.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
-			<version>1.3.1</version>
+			<version>${mybatis-spring.version}</version>
 		</dependency>
 
 		<!-- Utils -->
@@ -207,13 +259,13 @@
 		3) project F5
 		4) Maven > Update Project
 	-->		
-	<!-- 		
+ 		
 		<dependency>
 		    <groupId>org.apache.maven.plugins</groupId>
 		    <artifactId>maven-resources-plugin</artifactId>
 		    <version>2.4.3</version>
 		</dependency> 
-	-->		
+		
 
 	</dependencies>
 	<build>
