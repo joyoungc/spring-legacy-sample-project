@@ -39,7 +39,7 @@ public class AuthController {
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public String accessDeniedPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
-		return "common/403";
+		return "common/error";
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

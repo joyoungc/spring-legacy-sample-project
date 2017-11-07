@@ -5,13 +5,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/task 
-		http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+		http://www.springframework.org/schema/task/spring-task-4.3.xsd">
 
 	<bean id="jobRepository" init-method="" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="transactionManager" ref="transactionManager" />
-		<property name="databaseType" value="${jdbc.database.type}" />		
-		<property name="isolationLevelForCreate" value="ISOLATION_REPEATABLE_READ" />
+		<property name="databaseType" value="${jdbc.database.type}" />
+		<property name="isolationLevelForCreate" value="${spring.batch.isolation}" />
 		<property name="tablePrefix" value="${spring.batch.table.prefix}" />
 		<property name="maxVarCharLength" value="1000" />
 	</bean> 

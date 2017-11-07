@@ -34,6 +34,7 @@ public class MybatisConfig {
         factoryBean.setConfigLocation(applicationContext.getResource("classpath:sql/mybatis-config.xml"));
 
         // io.github.joyoungc.web.admin.model 패키지 이하의 model 클래스 이름을 짧은 별칭으로 등록
+        // ; 으로 구분지어 다른 패키지들도 등록가능
         factoryBean.setTypeAliasesPackage("io.github.joyoungc.web.admin.model");
 
         // sql/**/*-mapper.xml로 지정된 모든 XML을 Mapper로 등록

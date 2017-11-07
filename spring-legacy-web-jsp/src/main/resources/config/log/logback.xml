@@ -9,5 +9,5 @@
 	<property name="SERVICE_LOG_PATTERN"  value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%logger{36}] - %msg%n" /> 
 	
 	<!-- 배포환경 설정 임포트(import) -->
-	<include resource="config/log/logback-${env}.xml" />
+	<include resource="config/log/logback-${spring.profiles.active}.xml" />
 </configuration>

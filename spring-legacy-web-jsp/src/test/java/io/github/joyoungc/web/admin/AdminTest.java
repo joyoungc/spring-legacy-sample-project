@@ -1,22 +1,23 @@
 package io.github.joyoungc.web.admin;
 
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,6 +32,7 @@ import io.github.joyoungc.web.admin.service.AdminService;
 		,"classpath:config/spring/application-servlet.xml" 
 		})
 @WebAppConfiguration
+@ActiveProfiles(profiles = "local")
 public class AdminTest {
 	
 	private MockMvc mockMvc;
@@ -54,7 +56,7 @@ public class AdminTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 	
-	@Test
+	// @Test
 	public void getAdmin() throws Exception {
 		mockMvc
 			.perform(get("/rest/admins/aiden"))
@@ -69,7 +71,7 @@ public class AdminTest {
 		assertEquals("aiden", user.getUsername());
 	}
 	
-	// @Test
+	@Test
 	public void adminBatchService() throws Exception {
 		JobExecution result = adminBatchService.executeBatch();
 		assertEquals("COMPLETED", result.getExitStatus().getExitCode());
