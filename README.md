@@ -1,6 +1,41 @@
 <img src="images/spring-framework.png" width="80" height="80"> spring-legacy-sample-project
 ==========================
 
+# Table of Contents
+# [1. 소개](#introduction)
+## &nbsp; [1.1. 목적](#)
+## &nbsp; [1.2. 대상](#)
+
+# [2. 개발 표준](#develop-standard)
+## &nbsp; [2.1. Application 환경](#)
+## &nbsp; [2.2. 디렉토리 구조](#)
+## &nbsp; [2.3. Naming Convention](#)
+## &nbsp; [2.4. Spring Framework](#)
+### &nbsp;&nbsp; [2.4.1. Configuration](#)
+## &nbsp; [2.x. Spring Batch](#)
+## &nbsp; [2.x. Spring Security](#)
+
+# [3. 개발환경 설정](#develop-env)
+## &nbsp; [3.1. IDE 설치](#)
+### &nbsp;&nbsp; [3.1.1. Plugin 설치](#)
+## &nbsp; [3.2. Maven 설치 및 설정](#)
+## &nbsp; [3.3. 소스버전관리 ](#)
+
+# [4. 개발가이드](#13-annotation-description)
+## &nbsp; [4.1. 공통](#)
+### &nbsp;&nbsp; [4.1.1. Logging 처리](#)
+### &nbsp;&nbsp; [4.1.2. Message 처리](#)
+### &nbsp;&nbsp; [4.1.3. Validation](#)
+
+## &nbsp; [4.x. 신규 모듈 개발](#)
+## &nbsp; [4.x. SQL가이드](#)
+#### &nbsp;&nbsp;&nbsp; [4.x.x. 업무쿼리모음 ](#)
+## &nbsp; [4.x. 빌드 및 배포](#)
+## &nbsp; [4.x. 모니터링](#)
+## &nbsp; [4.x. 권한관리](#)
+
+
+
 # 1.소개
 ## 1.1. 목적
 Spring 기반으로 진행되는 Web Application 프로젝트를 위한 샘플 소스입니다.
@@ -254,10 +289,10 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 
 ### 4.1.1. Logging 처리
 - LogBack 라이브러리를 이용하여 debug 및 중요한 정보 Tracing 처리를 합니다.  
-- 로그레벨을 조정하여 로그를 남길 수 있도록 지원한다. 
+- 로그레벨을 조정하여 로그를 남길 수 있도록 지원합니다. 
 > 주의) System.out.println() 사용을 최대한 피하도록 합니다. 
 
-   1) 로그 Trace Level 설명
+#### 1) 로그 Trace Level 설명
 
 | Level |  역할 및 기능 | 개발자 사용여부 |
 | ----- | ----- | ----- |
@@ -266,40 +301,87 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 | warn  | 비즈니스 측면에서 충분히 발생할 수 있는 에러 상황에 대한 로그 기록시 사용.<br> 당장 조치할 성격이 아닌 경우 경고성으로 남긴다. | X |
 | info  | 운영 시 정보 성격의 로그를 남길 때 사용한다. <br>예를 들어 사용자 최초 접속여부나  어개발 시 디버그를 위해 사용. <br>운영 시 디버그 로그가 남지 않는다. | X |
 
+#### 2) 로그 Trace 예제
+```java
+@Slf4j /* lombok에서 제공하는 annotation을 이용하여 logger를 생성한다. */
+@Service
+public class UserService {
+   
+   @Autowired
+   private UserDao userDao;
+   
+   public List<User> selectUser(User user) {
+
+      // 잘못된 사용예 1 : 문자열 조합의 비용 발생
+      log.debug("## params : " + user.getUserId());
+
+      // 올바른 예 : 파라미터 formatting을 적용하여 사용
+      log.debug("## params : {}", user.getUserId());
+
+      return userDao.selectUser(user);
+   }
+
+}
+
+```
+
+### 4.1.2. Message 처리
+해당 프로젝트는 다국어 지원을 위해 MessageSourceAccessor 를 사용합니다. 
+Locale은 xml config에서 설정합니다. 
+
+#### 1) XML Config 설정 (파일위치 : /src/main/resources/config/spring/application-servlet.xml)
+```xml
+   <!-- Message 관련 설정 -->
+   <bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
+      <constructor-arg ref="messageSource" />
+      <constructor-arg value="ko_KR" />   <!-- Locale 설정 -->
+   </bean>
+   
+   <!-- 해당 프로퍼티 파일이 변경되었을 경우 애플리케이션을 다시 시작할 필요가 없이 변경이 가능한 ReloadableResourceBundleMessageSource 적용 -->
+   <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+      <property name="basenames">
+         <list>
+            <value>classpath:/message/msg</value>
+         </list>
+      </property>
+      <property name="defaultEncoding" value="UTF-8" />
+      <property name="cacheSeconds" value="60" />
+   </bean>
+```
+
+#### 2) 메세지 처리
+
+- properties file 위치 :
+   - /src/main/resources/message/msg_ko_KR.properties  
+   - /src/main/resources/message/msg_en_US.properties
+```
+msg_ko_KR.properties
+required={0}) {1}은 필수항목입니다. 
+
+msg_en_US.properties 
+required={0}) {1} is a required field.
+```
+
+```java
+   @Autowired
+   private MessageSourceAccessor message;
+
+   @Test
+   public void messageSourceAccessorTest() {
+      /* Case 1 */
+      String success = message.getMessage("success"); // args : 메시지코드
+      assertThat(success, is("성공입니다."));
+
+      /* Case 2 */
+      Object[] args = new String[] { "1", "userId" };
+      String required = message.getMessage("required", args); // args : 메시지코드, 메시지 Arguments 바인딩
+      assertThat(required, is("1) userId은 필수항목입니다."));
+   }
+
+```
+
 
 ===========================================================================================================
 ===========================================================================================================
 
 
-# Table of Contents
-# [1. 소개](#introduction)
-## &nbsp; [1.1. 목적](#)
-## &nbsp; [1.2. 대상](#)
-
-# [2. 개발 표준](#develop-standard)
-## &nbsp; [2.x. Application 환경](#)
-## &nbsp; [2.x. 디렉토리 구조](#)
-## &nbsp; [2.x. Naming Convention](#)
-## &nbsp; [2.x. Spring Framework](#)
-### &nbsp;&nbsp; [2.x.x. Configuration](#)
-#### &nbsp;&nbsp;&nbsp; [2.1. XML Config](#)
-#### &nbsp;&nbsp;&nbsp; [2.2. Java Config](#)
-#### &nbsp;&nbsp;&nbsp; [2.3. Annotation Description](#)
-## &nbsp; [2.x. Spring Batch](#)
-## &nbsp; [2.x. Spring Security](#)
-
-# [3. 개발환경 설정](#develop-env)
-## &nbsp; [3.x. IDE 설치](#)
-## &nbsp; [3.x. Maven 설치 및 설정](#)
-## &nbsp; [3.x. 소스버전관리 ](#)
-
-# [4. 개발가이드](#13-annotation-description)
-## &nbsp; [4.1. 공통](#)
-### &nbsp;&nbsp; [4.1.1. Logging 처리](#)
-
-## &nbsp; [4.x. 신규 모듈 개발](#)
-## &nbsp; [4.x. SQL가이드](#)
-#### &nbsp;&nbsp;&nbsp; [4.x.x. 업무쿼리모음 ](#)
-
-## &nbsp; [4.x. 빌드 및 배포](#)
-## &nbsp; [4.x. 모니터링](#)
