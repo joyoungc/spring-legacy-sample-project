@@ -83,7 +83,8 @@ Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory 
 | ----- | ----- | ----- |
 | Controller | [명사] + Controller.java | UserController.java |
 | Service | [명사] + Service.java | UserService.java |
-| Value Object(or DTO) | [명사].java | User.java <br> UserDTO.java |
+| Value Object | [명사].java | User.java |
+| Data Transfer Object | [명사] + DTO.java | UserDTO.java |
 | SQL Mapper XML | [명사] + -mapper.xml | user-mapper.xml |
 | Utility Class | [명사] + Utils.java | CommonUtils.java |
 
@@ -193,50 +194,81 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 - @Async : 해당 method를 비동기로 처리합니다. 
 
 
-===========================================================================================================
-===========================================================================================================
-
-
 # 3.개발환경 설정
 
 ## 3.1. IDE 설치 (Eclipse or ETC)
-- lombok plugin 설치 
+### 3.1.1. Plugin 설치
+#### 3.1.1.1. lombok plugin 설치
    1. C:\dev-project\maven\local\repository\org\projectlombok\lombok\1.16.16 의 lombok-1.16.16.jar 실행(더블클릭)
 ![maven](images/002.png)
    2. `Specify location` 버튼 클릭 후 설치된 이클립스 location 설정
    3. `Install / Update` 버튼 클릭
    4. 설치 완료후 이클립스 재시작
 
+#### 3.1.1.2. SVN Connector 설치
+   1. <http://www.eclipse.org/subversive/latest-releases.php> 에 접속하여 `Subversive-4.0.5.I20170425-1700.zip` 파일 다운로드  
+   2. <http://community.polarion.com/projects/subversive/download/eclipse/6.0/builds/?C=M;O=A> 에 접속하여 `Subversive-connectors-allplatforms-6.0.4.I20161211-1700.zip` 파일 다운로드  
+   3. 이클립스 > Help > Install New Software
+   ![maven](images/004.png)
+   4. `Add` 버튼 클릭 > Add Repository 창에서 `Archive` 클릭 > `Subversive-4.0.5.I20170425-1700.zip` 파일 첨부 
+   ![maven](images/005.png)
+   5. `Select All` 클릭 후 `Contact all update sites during install to find required software` 체크해제
+   6. Next > Next > `I accept the terms of the license agreement` 선택 후 Finish
+   7. 이클립스 재시작
+   8. `Subversive-connectors-allplatforms-6.0.4.I20161211-1700.zip` 파일로 3 ~ 7번 과정을 반복 
+
 ## 3.2. Maven 설치 및 설정
-   - <https://maven.apache.org/download.cgi> 에 접속하여 파일 다운로드
-   - C:\dev-project\maven에 압축 해제
-   - C:\dev-project\maven\conf\settings.xml에서 아래 설정 추가
+   1. <https://maven.apache.org/download.cgi> 에 접속하여 파일 다운로드
+   2. C:\dev-project\maven에 압축 해제
+   3. C:\dev-project\maven\conf\settings.xml파일을 편집하여 아래 설정 추가
    ```xml
    ...
    <localRepository>C:\dev-project\maven\local\repository</localRepository> <!-- artifacts가 저장되는 위치 지정 -->
 	...
    <offline>true</offline> <!-- 외부 네트워크(인터넷) 접속이 불가능한 환경에서 설정 -->
    ```
-   - 이클립스 > Preferenct > Maven > User Settings
+   4. 이클립스 > Preference > Maven > User Settings
    ![maven](images/001.png)
-   User Setting을 C:\dev-project\maven\conf\settings.xml로 설정
+   5. User Setting을 C:\dev-project\maven\conf\settings.xml로 설정
    
-   
+
 ## 3.3. Tomcat 설정
-- Servers > Tomcat 서버 더블 클릭 > Overview > Open launch configuration 클릭
-- Arguments 탭 클릭 > VM arguments 에 `-Dspring.profiles.active=local` 추가
-![tomcat](images/003.png)
+   1. <https://tomcat.apache.org/download-80.cgi> 에 접속하여 설치 파일 다운로드
+   2. C:\dev-project\tomcat에 압축 해제
+   3. 이클립스 > Preference > Server > Runtime Environment 
+   ![tomcat](images/006.png)
+   4. `Add` 클릭 > Apache Tomcat v8.0 선택 후 `Next`
+   5. `Browse` 클릭 후 C:\dev-project\tomcat 지정 > `Finish` > `Apply and Close`
+   6. Servers > Tomcat 서버 더블 클릭 > Overview > Open launch configuration 클릭
+   ![tomcat](images/003.png)
+   7. Arguments 탭 클릭 > VM arguments 에 `-Dspring.profiles.active=local` 추가
 
 
-## 3.3. 소스 버전 관리
+## 3.4. 소스 버전 관리
+※ 프로젝트 환경에 따라 설정 정보 입력 예정
 
 
 # 4.개발 가이드
 
 ## 4.1. 공통
 
+### 4.1.1. Logging 처리
+- LogBack 라이브러리를 이용하여 debug 및 중요한 정보 Tracing 처리를 합니다.  
+- 로그레벨을 조정하여 로그를 남길 수 있도록 지원한다. 
+> 주의) System.out.println() 사용을 최대한 피하도록 합니다. 
+
+   1) 로그 Trace Level 설명
+
+| Level |  역할 및 기능 | 개발자 사용여부 |
+| ----- | ----- | ----- |
+| error | 비즈니스 오류나 업무에서 발생되어서는 안되는 경우를 체크하기 위함 | X |
+| debug | 개발 시 디버그를 위해 사용. <br>운영 시 디버그 로그가 남지 않는다. | X |
+| warn  | 비즈니스 측면에서 충분히 발생할 수 있는 에러 상황에 대한 로그 기록시 사용.<br> 당장 조치할 성격이 아닌 경우 경고성으로 남긴다. | X |
+| info  | 운영 시 정보 성격의 로그를 남길 때 사용한다. <br>예를 들어 사용자 최초 접속여부나  어개발 시 디버그를 위해 사용. <br>운영 시 디버그 로그가 남지 않는다. | X |
 
 
+===========================================================================================================
+===========================================================================================================
 
 
 # Table of Contents
@@ -262,7 +294,9 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 ## &nbsp; [3.x. 소스버전관리 ](#)
 
 # [4. 개발가이드](#13-annotation-description)
-## &nbsp; [4.x. 공통](#)
+## &nbsp; [4.1. 공통](#)
+### &nbsp;&nbsp; [4.1.1. Logging 처리](#)
+
 ## &nbsp; [4.x. 신규 모듈 개발](#)
 ## &nbsp; [4.x. SQL가이드](#)
 #### &nbsp;&nbsp;&nbsp; [4.x.x. 업무쿼리모음 ](#)

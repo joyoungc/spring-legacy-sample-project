@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.joyoungc.web.user.dao.UserDao">
+
+	<!-- 사용자 조회 -->
+	<select id="selectUser" resultType="User">
+		SELECT /*[user/user-mapper.xml] selectUser */
+			USER_ID,
+			USER_NAME,
+			PASSWORD,
+			ENABLED
+		  FROM TB_USER
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(userId)">
+		 WHERE USER_ID = #{userId}
+		</if>
+	</select>
+
+</mapper>
