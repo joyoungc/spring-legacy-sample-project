@@ -1,4 +1,4 @@
-package io.github.joyoungc.web.configuration;
+package io.github.joyoungc.web.common.configuration;
 
 import javax.sql.DataSource;
 
@@ -21,8 +21,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 			.jdbcAuthentication().dataSource(dataSource)
-			.usersByUsernameQuery("SELECT USERNAME ,PASSWORD, ENABLED FROM TB_ADM_LOGIN WHERE USERNAME = ?")
-			.authoritiesByUsernameQuery("SELECT USERNAME, AUTHORITY FROM TB_ADM_AUTHORITIES WHERE USERNAME = ?");
+			.usersByUsernameQuery("SELECT USER_ID ,PASSWORD, ENABLED FROM TB_USER WHERE USER_ID = ?")
+			.authoritiesByUsernameQuery("SELECT USER_ID, AUTHORITY FROM TB_USER_AUTH WHERE USER_ID = ?");
 	}
 	
     @Override
@@ -32,7 +32,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   	  		.formLogin() // 로그인 설정
 		  	  	.loginPage("/login")
 		  	  	.failureUrl("/login?error")		  	  	
-		  	  	.usernameParameter("username")
+		  	  	.usernameParameter("userId")
 		  	  	.passwordParameter("password")
 		  	  	.permitAll()
 		  	  	.and()
@@ -44,9 +44,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
   	  		.authorizeRequests()
-  	  			//.antMatchers("/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-  	  			//.antMatchers("/**").access("hasRole('ROLE_ADMIN')")
-  	  			//.antMatchers("/","/home").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
   	  			.antMatchers("/","/home").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
   	  			.anyRequest().authenticated()
   	  			.and()

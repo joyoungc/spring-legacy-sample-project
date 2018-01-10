@@ -1,4 +1,4 @@
-package io.github.joyoungc.web.configuration;
+package io.github.joyoungc.web.common.configuration;
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public class MybatisConfig {
 
         // io.github.joyoungc.web.admin.model 패키지 이하의 model 클래스 이름을 짧은 별칭으로 등록
         // ; 으로 구분지어 다른 패키지들도 등록가능
-        factoryBean.setTypeAliasesPackage("io.github.joyoungc.web.admin.model");
+        factoryBean.setTypeAliasesPackage("io.github.joyoungc.web.user.model;io.github.joyoungc.web.admin.model");
 
         // sql/**/*-mapper.xml로 지정된 모든 XML을 Mapper로 등록
         factoryBean.setMapperLocations(applicationContext.getResources("classpath:sql/**/*-mapper.xml"));

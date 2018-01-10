@@ -21,9 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.joyoungc.web.admin.model.User;
 import io.github.joyoungc.web.admin.service.AdminBatchService;
-import io.github.joyoungc.web.admin.service.AdminService;
 
 
 @RunWith(SpringRunner.class)
@@ -37,7 +35,6 @@ public class AdminTest {
 	
 	private MockMvc mockMvc;
 
-	private static boolean isInit = true;
 
 	@Autowired
 	private ObjectMapper mapper;
@@ -45,9 +42,6 @@ public class AdminTest {
 	@Autowired
 	private WebApplicationContext context;
 
-	@Autowired
-	public AdminService adminService;
-	
 	@Autowired
 	public AdminBatchService adminBatchService;
 	
@@ -65,11 +59,6 @@ public class AdminTest {
 			.andExpect(jsonPath("$.adminName").value("aiden"));
 	}
 	
-	// @Test
-	public void getUserByUsername() throws Exception {
-		User user = adminService.getUserByUsername("aiden");
-		assertEquals("aiden", user.getUsername());
-	}
 	
 	@Test
 	public void adminBatchService() throws Exception {

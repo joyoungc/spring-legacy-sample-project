@@ -303,12 +303,12 @@
 		2) mvn install
 		3) project F5
 		4) Maven > Update Project
-	-->
 		<dependency>
 		    <groupId>org.apache.maven.plugins</groupId>
 		    <artifactId>maven-resources-plugin</artifactId>
 		    <version>2.6</version>
-		</dependency>
+		</dependency>		
+	-->
 
 	</dependencies>
 	<build>

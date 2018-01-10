@@ -7,6 +7,7 @@
 		http://www.springframework.org/schema/jee 
 		http://www.springframework.org/schema/jee/spring-jee.xsd">
         
+<!--  
     <beans profile="local">
     	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"> 
 			<property name="driverClassName"    value="${jdbc.driver}"/>
@@ -21,18 +22,13 @@
 			<property name="validationQuery"    value="${jdbc.validationQuery}"/>
 			<property name="testWhileIdle"      value="${jdbc.testWhileIdle}"/>
 			<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}"/>
-			<!-- <property name="defaultAutoCommit"  value="${jdbc.defaultAutoCommit}"/> -->  
+			<property name="defaultAutoCommit"  value="${jdbc.defaultAutoCommit}"/>  
 		</bean>
     </beans>
     
     <beans profile="!local">
     	<jee:jndi-lookup id="dataSource" jndi-name="dataSourceName" resource-ref="true" />
-    	<!--
-    	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="dataSourceName"></property>
-		<property name="resourceRef" ref="true" />
-		</bean>
-		-->
     </beans>
+-->
     
 </beans>
