@@ -1,12 +1,12 @@
-<img src="images/spring-framework.png" width="80" height="80"> spring-legacy-sample-project
+<img src="images/spring-framework.png" width="80" height="80"/> spring-legacy-sample-project
 ==========================
 
 # Table of Contents
-# [1. 소개](#introduction)
+# [1. 소개](#)
 ## &nbsp; [1.1. 목적](#)
 ## &nbsp; [1.2. 대상](#)
 
-# [2. 개발 표준](#develop-standard)
+# [2. 개발 표준](#)
 ## &nbsp; [2.1. Application 환경](#)
 ## &nbsp; [2.2. 디렉토리 구조](#)
 ## &nbsp; [2.3. Naming Convention](#)
@@ -21,19 +21,17 @@
 ## &nbsp; [3.2. Maven 설치 및 설정](#)
 ## &nbsp; [3.3. 소스버전관리 ](#)
 
-# [4. 개발가이드](#13-annotation-description)
+# [4. 개발가이드](#)
 ## &nbsp; [4.1. 공통](#)
 ### &nbsp;&nbsp; [4.1.1. Logging 처리](#)
 ### &nbsp;&nbsp; [4.1.2. Message 처리](#)
 ### &nbsp;&nbsp; [4.1.3. Validation](#)
-
-## &nbsp; [4.x. 신규 모듈 개발](#)
-## &nbsp; [4.x. SQL가이드](#)
+## &nbsp; [4.2. 신규 모듈 개발](#)
+## &nbsp; [4.3. SQL가이드](#)
 #### &nbsp;&nbsp;&nbsp; [4.x.x. 업무쿼리모음 ](#)
-## &nbsp; [4.x. 빌드 및 배포](#)
-## &nbsp; [4.x. 모니터링](#)
-## &nbsp; [4.x. 권한관리](#)
-
+## &nbsp; [4.4. 빌드 및 배포](#)
+## &nbsp; [4.5. 모니터링](#)
+## &nbsp; [4.6. 권한관리](#)
 
 
 # 1.소개
@@ -201,7 +199,7 @@ public class UserDTO {
 
 ## 2.4. Spring Framework
 ### 2.4.1. Configuration
-#### 2.4.1.1. XML Config
+#### 1) XML Config
 XML 파일로 구성된 Configuration 목록입니다. 
 - Spring Common Config
 - Spring Batch (include TaskExecutor, Scheduler)
@@ -212,7 +210,7 @@ XML 파일로 구성된 Configuration 목록입니다.
 - ViewResolver
 - Interceptors
 
-#### 2.4.1.2. Java Config
+#### 2) Java Config
 Java Config(Annotation기반)으로 구성된 Configuration 목록입니다. 
 - Spring Security
 - MyBatis
@@ -220,7 +218,7 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 - ModelMapper
 - CacheManager
 
-#### 2.4.1.3. Annotation Description
+#### 3) Annotation Description
 - @Slf4j : 해당 클래스에 Slf4j log 변수를 사용할 수 있도록 설정해 줍니다. (by lombok lib)
 - @Data : Object에 선언된 변수에 대해 getter, setter, toString 등을 자동 생성합니다. (by lombok lib)
 - @Transactional : Service Layer에서 사용되며 method 단위로 적용. 단순 조회(Read)에서는 사용하지 않습니다. Create, Update, Delete가 실행되는 method에 적용합니다.
@@ -266,7 +264,6 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
    ![maven](images/001.png)
    5. User Setting을 C:\dev-project\maven\conf\settings.xml로 설정
    
-
 ## 3.3. Tomcat 설정
    1. <https://tomcat.apache.org/download-80.cgi> 에 접속하여 설치 파일 다운로드
    2. C:\dev-project\tomcat에 압축 해제
@@ -278,7 +275,6 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
    ![tomcat](images/003.png)
    7. Arguments 탭 클릭 > VM arguments 에 `-Dspring.profiles.active=local` 추가
 
-
 ## 3.4. 소스 버전 관리
 ※ 프로젝트 환경에 따라 설정 정보 입력 예정
 
@@ -286,14 +282,12 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 # 4.개발 가이드
 
 ## 4.1. 공통
-
 ### 4.1.1. Logging 처리
 - LogBack 라이브러리를 이용하여 debug 및 중요한 정보 Tracing 처리를 합니다.  
 - 로그레벨을 조정하여 로그를 남길 수 있도록 지원합니다. 
 > 주의) System.out.println() 사용을 최대한 피하도록 합니다. 
 
 #### 1) 로그 Trace Level 설명
-
 | Level |  역할 및 기능 | 개발자 사용여부 |
 | ----- | ----- | ----- |
 | error | 비즈니스 오류나 업무에서 발생되어서는 안되는 경우를 체크하기 위함 | X |
@@ -326,10 +320,11 @@ public class UserService {
 ```
 
 ### 4.1.2. Message 처리
-해당 프로젝트는 다국어 지원을 위해 MessageSourceAccessor 를 사용합니다. 
-Locale은 xml config에서 설정합니다. 
+- 해당 프로젝트는 다국어 지원을 위해 MessageSourceAccessor 를 사용합니다. 
+- Locale은 xml config에서 설정합니다. 
 
-#### 1) XML Config 설정 (파일위치 : /src/main/resources/config/spring/application-servlet.xml)
+#### 1) XML Config 설정 
+- 파일위치 : /src/main/resources/config/spring/application-servlet.xml
 ```xml
    <!-- Message 관련 설정 -->
    <bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
@@ -337,7 +332,8 @@ Locale은 xml config에서 설정합니다.
       <constructor-arg value="ko_KR" />   <!-- Locale 설정 -->
    </bean>
    
-   <!-- 해당 프로퍼티 파일이 변경되었을 경우 애플리케이션을 다시 시작할 필요가 없이 변경이 가능한 ReloadableResourceBundleMessageSource 적용 -->
+   <!-- 해당 프로퍼티 파일이 변경되었을 경우 애플리케이션을 다시 시작할 필요가 없이 
+   		변경이 가능한 ReloadableResourceBundleMessageSource 적용 -->
    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
       <property name="basenames">
          <list>
@@ -354,6 +350,8 @@ Locale은 xml config에서 설정합니다.
 - properties file 위치 :
    - /src/main/resources/message/msg_ko_KR.properties  
    - /src/main/resources/message/msg_en_US.properties
+
+- Server단 메세지 처리
 ```
 msg_ko_KR.properties
 required={0}) {1}은 필수항목입니다. 
@@ -361,7 +359,6 @@ required={0}) {1}은 필수항목입니다.
 msg_en_US.properties 
 required={0}) {1} is a required field.
 ```
-
 ```java
    @Autowired
    private MessageSourceAccessor message;
@@ -375,13 +372,283 @@ required={0}) {1} is a required field.
       /* Case 2 */
       Object[] args = new String[] { "1", "userId" };
       String required = message.getMessage("required", args); // args : 메시지코드, 메시지 Arguments 바인딩
-      assertThat(required, is("1) userId은 필수항목입니다."));
+      assertThat(required, is( "1) userId은 필수항목입니다." ));
    }
+```
+
+- Client단 메세지 처리
+```
+msg_ko_KR.properties
+login=로그인 
+
+msg_en_US.properties 
+login=Login
+```
+```html
+<%@ taglib prefix="sp" uri="http://www.springframework.org/tags"%>
+<sp:message code="login" /> <!-- output : 로그인 -->
 
 ```
 
+### 4.1.3. Validation
+- JSR 380 spec을 사용하여 annotation을 이용한 자동 검증 방식을 사용합니다.
+- javax.validation.Valid annotation을 Controller에 적용하여 내부적으로 검증이 수행됩니다.   
 
-===========================================================================================================
-===========================================================================================================
+#### 1) Validation DTO
+다음은 JSR 380 에서 정의된 annotation이 적용된 DTO 입니다.
+ 
+```java
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import lombok.Data;
+
+public class UserDTO {
+	
+	@Data
+	public static class Create {
+		
+		@NotBlank
+		@Size(min = 4, max = 20)
+		private String userName;
+		
+		@NotBlank
+		private String password;
+		
+		@NotNull		
+		@Range(min=0, max=1)
+		private Integer enabled;
+	}
+...
+```  
+#### 2) Validation을 적용할 Controller Method
+- 검증 방법은 Controller method의 파라미터에 @Valid 어노테이션을 추가합니다. 
+- 바인드 과정에서 자동으로 검증이 되고, 바인딩 오류가 있을 시 
+@ControllerAdvice에 설정된 ExceptionHandler에 Error내역이 Response 됩니다.
+
+```java
+@Slf4j
+@ControllerAdvice
+public class ControllerExceptionHanderAdvice {
+	
+	@ExceptionHandler(BindException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	public Map<String, String> handlerBindException(BindException e) {
+		log.error("## BindException error : {}", e);
+		String resultMsg = e.hasFieldErrors()
+				? MessageFormat.format(e.getFieldErrors().get(0).getDefaultMessage(),
+						e.getFieldErrors().get(0).getField())
+				: e.getMessage();
+		return Collections.singletonMap("resultMessage", resultMsg);		
+	}
+
+}
+```
+
+#### 3) Validation 메세지 설정
+각 Annotation에 설정되어 있는 default 메세지들은 아래와 같이 message properties 파일에 overriding 해서 설정합니다.
+
+```
+msg_ko_KR.properties
+javax.validation.constraints.NotBlank.message={0}은(는) 필수 항목입니다.  
+
+msg_en_US.properties 
+javax.validation.constraints.NotBlank.message={0} must not be blank
+```
 
 
+#### 4) JSR-380 (Bean Validation constraints) Annotations
+
+| Annotation | Supported data types | Description |
+| ---------- | ---------- | ---------- |
+| @AssertTrue | Boolean, boolean | validates that the annotated property value is true |
+| @Email | CharSequence | validates that the annotated property is a valid email address |
+| @Future and @FutureOrPresent | java.util.Date, java.time.LocalDateTime 외 다수 | validates that a date value is in the future, or in the future including the present |
+| @Max(value=) | BigDecimal, BigInteger, byte, short, int, long | validates that the annotated property has a value no larger than the value attribute |
+| @Min(value=) | BigDecimal, BigInteger, byte, short, int, long | validates that the annotated property has a value no smaller than the value attribute |
+| @NotBlank | CharSequence | can be applied only to text values and validated that the property is not null or whitespace |
+| @NotEmpty | CharSequence, Collection, Map and arrays | validates that the property is not null or empty; can be applied to String, Collection, Map or Array values |
+| @NotNull | Any type | validates that the annotated property value is not null |
+| @Negative and @NegativeOrZero | BigDecimal, BigInteger, byte, short, int, long | apply to numeric values and validate that they are strictly negative, or negative including 0 |
+| @Past and @PastOrPresent | java.util.Date, java.time.LocalDateTime 외 다수 | validate that a date value is in the past or the past including the present; can be applied to date types including those added in Java 8 |
+| @Pattern(regex=, flags=) | CharSequence | Checks if the annotated string matches the regular expression regex considering the given flag match |
+| @Positive and @PositiveOrZero | BigDecimal, BigInteger, byte, short, int, long | apply to numeric values and validate that they are strictly positive, or positive including 0 |
+| @Range(min=, max=) | BigDecimal, BigInteger, byte, short, int, long | Checks whether the annotated value lies between (inclusive) the specified minimum and maximum |
+| @Size | CharSequence, Collection, Map and arrays | validates that the annotated property value has a size between the attributes min and max; can be applied to String, Collection, Map, and array properties |
+
+> 더 자세한 내용은 [validator-defineconstraints-spec](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-defineconstraints-spec) 페이지를 참고하시기 바랍니다.
+
+## 4.2. 신규 모듈 개발
+### 4.2.1. View
+- src/main/webapp/WEB-INF/jsp 폴더 및에 업무레벨별로 폴더 생성 후 jsp 파일을 생성한다. 
+- 페이지별 공통 css, js import를 위해 `<head>` 태그 사이에 ```java <jsp:include page="/WEB-INF/jsp/common/head.jsp" /> ``` 를 삽입한다.
+```html
+<html lang="ko">
+<head>
+<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<title>사용자</title>
+</head>
+```
+ 
+- Tag library 종류
+```java
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 		/* JSTL Core */
+<%@ taglib prefix="sp" uri="http://www.springframework.org/tags"%>		/* Spring */
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>	/* Spring Security */
+```
+
+### 4.2.2. Controller
+
+```java
+@Controller  // 1)
+@RequestMapping("/user")	// 2)
+public class UserController {
+
+	@Autowired
+	private UserService userService;  /* Service DI */
+
+	/***
+	 * 사용자 Page
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/list")
+	public String list() {
+		return "/user/list";
+	}
+
+```
+#### 1) Controller 스테레오 타입 설정
+- @Controller 어노테이션 설정을 하여 Spring Bean에 등록되도록 한다.
+
+ 
+#### 2) RequestMapping 설정 
+- 클래스 및 메소드 단위로 URL 매핑정보를 반영한다. 
+
+#### 3) Method 작성
+```java
+	/***
+	 * 사용자 등록
+	 * 
+	 * @param dto
+	 */
+	@PostMapping("/rest/users")
+	public void createUser(@RequestBody @Valid UserDTO.Create dto) {
+		userService.createUser(dto);
+	}
+```
+- GetMapping, PutMapping, PostMapping, DeleteMapping 을 사용하여 URL과 Http Method를 설정한다.
+- 파라미터에 @Valid 를 적용하여 Server Validation 을 활성화 한다.
+
+
+
+### 4.2.3. Service
+
+```java
+@Slf4j
+@Service   // 1)
+public class UserService {
+	
+	@Autowired
+	private UserDao userDao;  /* Dao DI */
+	
+	@Autowired
+	ModelMapper modelMapper;
+	
+	public List<User> selectUser(User user) {
+		log.debug("## params : {}", user.getUserId());
+		return userDao.selectUser(user);
+	}
+
+	public User getUser(String userId) {
+		return userDao.getUser(userId);
+	}
+
+	@Transactional  // 2)
+	public void updateUser(UserDTO.Update dto, String userId) {
+		User user = modelMapper.map(dto, User.class);
+		user.setUserId(userId);
+		log.debug("## user : {}", user);
+		userDao.updateUser(user);
+	}	
+```
+
+#### 1) Service 스테레오 타입 설정
+- @Service 어노테이션 설정을 하여 Spring Bean에 등록되도록 한다.
+
+#### 2) Transaction 설정
+- Transaction은 Service Layer에서 설정하며 @Transactional 어노테이션을 이용해 활성화 한다. 
+- 조회를 제외한 등록, 수정, 삭제 메소드에 설정한다.
+
+
+### 4.2.4. Dao
+```java
+@Repository
+public interface UserDao {
+	
+	List<User> selectUser(User user);
+
+	User getUser(String userId);
+	
+	void updateUser(User user);
+```
+#### 1) Repository 스테레오 타입 설정
+- Dao는 interface로 생성합니다.
+- @Repository 어노테이션 설정을 하여 Spring Bean에 등록되도록 합니다.
+
+
+#### 2) Method 작성
+- 각각의 메소드명은 MyBatis SQL Mapper에 있는 id와 일치하도록 합니다.
+```java
+	List<User> selectUser(User user);
+```
+```xml
+	<select id="selectUser" resultType="User">
+```
+
+### 4.2.5. SQL Mapper XML
+
+#### 1) SQL mapper 파일 작성 위치
+- [PROJECT_ROOT/src/main/resources/sql/{업무레벨2}/{명사}-mapper.xml
+
+#### 2) SQL mapper 표준 작성 방법
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.joyoungc.web.user.dao.UserDao">  <!-- (1) 네임스페이스 -->
+
+	<!-- 사용자 조회 -->
+	<select id="selectUser" parameterType="User" resultType="User"> <!-- (2) parameterType, resultType -->
+		SELECT /*[user/user-mapper.xml] selectUser */
+			USER_ID,
+			USER_NAME,
+			PASSWORD,
+			ENABLED
+		  FROM TB_USER
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(userId)">
+		 WHERE USER_ID = #{userId}
+		</if>
+	</select>
+
+</mapper>
+```
+- SQL Mapper 작성시 네임스페이스는 Dao interface 로 설정합니다. 
+- Mapper에서 parameterType 과 resultType은 java.util.Map 사용을 지양하고, Value Object를 기반으로 설정하도록 합니다.
+- Mapper XML은 Well-formed 문서로 작성되어야 한다. "<", ">" 와 같은 특수문자는 `&lt`, `&rt`로 치환해서 사용하거나,
+쿼리 내용을 그대로 표현하기 위해 <![CDATA[ ]]> 를 사용합니다. 
+
+#### 3) 주의 사항
+- Java 소스 내에 SQL문 작성을 하지 않습니다. 
+- Procedure 사용을 지양합니다. 
+- 되도록 Ansi SQL 문법으로 작성합니다.
+- MyBatis 파라미터 바인딩 시 문자열 대체는 사용을 금지합니다. ex) ${param}
+
+## 4.3. SQL가이드
+
+## 4.4. 빌드 및 배포
+
+## 4.5. 모니터링
+
+## 4.6. 권한관리
