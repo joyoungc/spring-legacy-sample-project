@@ -14,5 +14,10 @@ import io.github.joyoungc.web.user.model.User;
 
 @Repository
 public interface UserDao {
+	
 	List<User> selectUser(User user);
+
+	User getUser(String userId);
+	
+	void updateUser(User user);
 }

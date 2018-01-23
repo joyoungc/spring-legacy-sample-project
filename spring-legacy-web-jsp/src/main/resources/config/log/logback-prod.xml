@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>  
+	<!-- ================================================================= -->
+    <!-- Log Appender 설정 -->
+	<!-- ================================================================= --> 
+	<appender name="ERROR_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${ERROR_LOG_HOME}/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+			<fileNamePattern>${ERROR_LOG_HOME}/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${ERROR_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender> 
+	<appender name="SERVICE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/service.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+			<fileNamePattern>${LOG_HOME}/service-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${SERVICE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	<!-- ================================================================= -->
+    <!-- Common Log 설정 -->
+	<!-- ================================================================= -->
+	<logger name="ERROR_LOGGER" level="ERROR" additivity="false"> 
+		<appender-ref ref="ERROR_LOG" />
+	</logger>   
+	<!-- ================================================================= -->
+    <!-- Service Log 설정 -->
+	<!-- ================================================================= -->
+	<!-- framework logger -->	
+	<logger name="org.springframework.web" level="INFO" additivity="false"> 
+		<appender-ref ref="SERVICE_LOG" />
+	</logger>
+	<logger name="org.springframework.jdbc" level="INFO" additivity="false"> 
+		<appender-ref ref="SERVICE_LOG" />
+	</logger>	
+	<logger name="org.springframework.transaction" level="INFO" additivity="false"> 
+		<appender-ref ref="SERVICE_LOG" />
+	</logger>
+	
+	<logger name="org.apache.ibatis" level="DEGUB" additivity="false"> 
+		<appender-ref ref="SERVICE_LOG" />
+	</logger>   
+	<logger name="org.apache.http" level="DEBUG" additivity="false"> 
+		<appender-ref ref="SERVICE_LOG" />
+	</logger>
+	
+	<!-- Application Logger -->	
+	<logger name="io.github.joyoungc" level="DEBUG" additivity="false"> 
+		<appender-ref ref="SERVICE_LOG" />
+	</logger>  
+ 	
+	<root level="DEBUG">  
+		<appender-ref ref="SERVICE_LOG" />  
+	</root>
+	
+</included>

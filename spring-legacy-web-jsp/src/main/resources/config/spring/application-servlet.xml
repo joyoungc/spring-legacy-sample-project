@@ -14,7 +14,24 @@
 	<context:component-scan base-package="io.github.joyoungc" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan> 
-
+	
+	<!-- Message 관련 설정 -->
+	<bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
+		<constructor-arg ref="messageSource" />
+		<constructor-arg value="ko_KR" />	<!-- Locale 설정 -->
+	</bean>
+	
+	<!-- 해당 프로퍼티 파일이 변경되었을 경우 애플리케이션을 다시 시작할 필요가 없이 변경이 가능한 ReloadableResourceBundleMessageSource 적용 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:/message/msg</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="60" />
+	</bean>
+	
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	
 	<mvc:annotation-driven>
@@ -28,15 +45,6 @@
 				</property>
 			</bean>
 		</mvc:message-converters>
-		<!--
-		<mvc:argument-resolvers>
-			<bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver">
-				<property name="oneIndexedParameters" value="true"/>
-			</bean>
-			<bean class="org.springframework.data.web.SortHandlerMethodArgumentResolver" />
-		</mvc:argument-resolvers>
-		-->
-		 
 	</mvc:annotation-driven>  
 
  	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">

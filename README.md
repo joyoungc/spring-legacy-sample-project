@@ -2,6 +2,7 @@
 ==========================
 
 # Table of Contents
+
 # [1. 소개](#)
 ## &nbsp; [1.1. 목적](#)
 ## &nbsp; [1.2. 대상](#)
@@ -15,29 +16,39 @@
 ## &nbsp; [2.x. Spring Batch](#)
 ## &nbsp; [2.x. Spring Security](#)
 
-# [3. 개발환경 설정](#develop-env)
+# [3. 개발환경 설정](#)
 ## &nbsp; [3.1. IDE 설치](#)
 ### &nbsp;&nbsp; [3.1.1. Plugin 설치](#)
 ## &nbsp; [3.2. Maven 설치 및 설정](#)
-## &nbsp; [3.3. 소스버전관리 ](#)
+## &nbsp; [3.3. Tomcat 설정](#)
+## &nbsp; [3.4. 소스버전관리](#)
 
 # [4. 개발가이드](#)
 ## &nbsp; [4.1. 공통](#)
 ### &nbsp;&nbsp; [4.1.1. Logging 처리](#)
 ### &nbsp;&nbsp; [4.1.2. Message 처리](#)
 ### &nbsp;&nbsp; [4.1.3. Validation](#)
-## &nbsp; [4.2. 신규 모듈 개발](#)
-## &nbsp; [4.3. SQL가이드](#)
-#### &nbsp;&nbsp;&nbsp; [4.x.x. 업무쿼리모음 ](#)
-## &nbsp; [4.4. 빌드 및 배포](#)
-## &nbsp; [4.5. 모니터링](#)
-## &nbsp; [4.6. 권한관리](#)
 
+## &nbsp; [4.2. 신규 모듈 개발](#)
+### &nbsp;&nbsp; [4.2.1. View](#)
+### &nbsp;&nbsp; [4.2.2. Controller](#)
+### &nbsp;&nbsp; [4.2.3. Service](#)
+### &nbsp;&nbsp; [4.2.4. Dao](#)
+### &nbsp;&nbsp; [4.2.5. SQL Mapper XML](#)
+
+## &nbsp; [4.3. SQL가이드](#)
+### &nbsp; [4.3.1. DB Naming Rules](#)
+
+## &nbsp; [4.4. 빌드 및 배포](#)
+### &nbsp;&nbsp; [4.4.1. Project 빌드](#)
+### &nbsp;&nbsp; [4.4.2. 서버 배포](#)
+
+## &nbsp; [4.5. 서버 모니터링](#)
+### &nbsp;&nbsp; [4.5.1. Log 분석](#)
 
 # 1.소개
 ## 1.1. 목적
 Spring 기반으로 진행되는 Web Application 프로젝트를 위한 샘플 소스입니다.
-
 
 # 2.개발 표준
 ## 2.1. Application 개발환경
@@ -47,9 +58,9 @@ Spring 기반으로 진행되는 Web Application 프로젝트를 위한 샘플 �
 | 개발언어 | Java | 1.8.0_102 |  |
 | DBMS | H2 Database | 1.4.1 | 임시 |
 | WAS | Tomcat | 8.0 | Servlet 3.1 |
-| Framework | Spring Framework | 4.3.12 | Batch, Security 포함 |
+| Framework | Spring Framework | 4.3.12 | Spring Batch, Spring Security 포함 |
 | ORM | MyBatis | 3.4.5 |  |
-| UI | Bootstrap, jQuery |  |  |
+| UI | Bootstrap, jQuery | 3.3.7, 3.2.1 |  |
 | IDE | Eclipse | 4.7.2 (Oxygen) |  |
 
 ## 2.2. 디렉토리 구조
@@ -59,33 +70,34 @@ Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory 
 ├── src/main/java
 │   ├── {업무레벨1}.{업무레벨2}
 │   │    ├── batch               * Spring Batch 관련 패키지
-│   │    │   ├── tasklet           * tasklet 패키지
-│   │    │   ├── scheduler         * scheduler 패키지 
-│   │    │   ├── listener          * listener 패키지       
-│   │    │   └── item              * ItemReader, Writer, Processor 패키지
-│   │    ├── service             * Service 인터페이스 패키지
+│   │    │   ├── tasklet            - tasklet 패키지
+│   │    │   ├── scheduler          - scheduler 패키지 
+│   │    │   ├── listener           - listener 패키지       
+│   │    │   └── item               - ItemReader, Writer, Processor 패키지
+│   │    ├── service             * Service 클래스 패키지
 │   │    ├── dao                 * Dao 인터페이스 패키지
 │   │    └── model               * Model 클래스 패키지 
 │   │    
 │   └── {업무레벨1}.common       * 공통 소스 패키지
-│        ├── configuration         * Java Config 관련 패키지
-│        ├── interceptor           * interceptor 패키지
-│        └── utils                 * 공통 유틸 패키지 
+│        ├── configuration          - Java Config 관련 패키지
+│        ├── interceptor            - interceptor 패키지
+│        ├── utils                  - 공통 유틸 패키지 
+│        └── view                   - 공통 view 패키지
 │
 ├── src/main/resources
 │   ├── config
 │   │    ├── batch
 │   │    │    └── job            * Spring Batch Job xml 설정파일 폴더
 │   │    ├── log                 * Logback 설정파일 폴더
-│   │    ├── spring              * Spring 설정파일 폴더
+│   │    └── spring              * Spring 설정파일 폴더
 │   ├── message                  * 메시지 프로퍼티 파일폴더
 │   └── sql                      * Mybatis 설정 파일 및 mapper.xml 폴더
 │
 ├── src/main/webapp
 │   ├── resources                * web static resource 폴더 (js,css,images 등)
-│   │    ├── css                 * css 파일 폴더
-│   │    ├── images              * 이미지 파일 폴더
-│   │    └── js                  * js 파일 폴더
+│   │    ├── css                    - css 파일 폴더
+│   │    ├── images                 - 이미지 파일 폴더
+│   │    └── js                     - js 파일 폴더
 │   └── WEB-INF
 │        └── jsp                 * jsp view 파일 폴더
 └── src/test/java
@@ -107,10 +119,10 @@ Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory 
 
 ### 2.3.3. Class Naming Rules
 - Class 이름은 명사를 사용합니다. 
-- 첫 글자는 대문자로 시작하며, 단어를 2개 이상 조합하는 경우 Camel 표기법을 따릅니다. `ex) AdminService`
+- 첫 글자는 대문자로 시작하며, 단어를 2개 이상 조합하는 경우 Camel 표기법을 따릅니다. `ex) UserService`
 - 단어를 구분하기 위해서 밑줄(`_`)을 사용하지 않습니다. 
 
-> ex) Layer별 Class 명명 규칙
+**ex) Layer별 Class 명명 규칙**
 
 | Layer 계층 |  접미사 | 예제 |
 | ----- | ----- | ----- |
@@ -134,6 +146,7 @@ Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory 
    }
 ```
 
+**ex) Role별 Method 명명 규칙**
 
 | Role |  prefix | subfix | example |
 | ----- | ----- | ----- | ----- |
@@ -201,22 +214,47 @@ public class UserDTO {
 ### 2.4.1. Configuration
 #### 1) XML Config
 XML 파일로 구성된 Configuration 목록입니다. 
-- Spring Common Config
-- Spring Batch (include TaskExecutor, Scheduler)
-- Datasource
-- TaskExecutor, Scheduler
-- MessageSource
-- Validator
-- ViewResolver
-- Interceptors
+
+`파일위치 : {PROJECT_ROOT}/src/main/resources/config/spring`
+
+- **application-context.xml**
+   - Spring Common Config
+
+- **application-servlet.xml**
+   - MessageSource
+   - Validator
+   - ViewResolver
+   - Interceptors
+
+- **context-batch.xml**
+   - Spring Batch
+   - TaskExecutor, Scheduler
+   
+- **context-datasource.xml**
+   - Datasource
+
+- **context-transaction.xml**   
+   - TransactionManager
+   
 
 #### 2) Java Config
-Java Config(Annotation기반)으로 구성된 Configuration 목록입니다. 
-- Spring Security
-- MyBatis
-- MultipartResolver (Apache Commons )
-- ModelMapper
-- CacheManager
+Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
+ 
+`파일위치 : {PROJECT_ROOT}/src/main/java/io/github/joyoungc/web/common/configuration`
+
+- **SpringRootConfig.java**
+   - ObjectMapper
+   - RestTemplate
+   - ModelMapper
+   - MultipartResolver (Apache Commons)   
+   - CacheManager
+
+- **SpringSecurityConfig.java**   
+   - Spring Security
+   
+- **MybatisConfig.java**   
+   - MyBatis
+
 
 #### 3) Annotation Description
 - @Slf4j : 해당 클래스에 Slf4j log 변수를 사용할 수 있도록 설정해 줍니다. (by lombok lib)
@@ -229,16 +267,16 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 
 # 3.개발환경 설정
 
-## 3.1. IDE 설치 (Eclipse or ETC)
+## 3.1. IDE 설치 (Eclipse)
 ### 3.1.1. Plugin 설치
-#### 3.1.1.1. lombok plugin 설치
+#### 1) lombok plugin 설치
    1. C:\dev-project\maven\local\repository\org\projectlombok\lombok\1.16.16 의 lombok-1.16.16.jar 실행(더블클릭)
 ![maven](images/002.png)
    2. `Specify location` 버튼 클릭 후 설치된 이클립스 location 설정
    3. `Install / Update` 버튼 클릭
    4. 설치 완료후 이클립스 재시작
 
-#### 3.1.1.2. SVN Connector 설치
+#### 2) SVN Connector 설치
    1. <http://www.eclipse.org/subversive/latest-releases.php> 에 접속하여 `Subversive-4.0.5.I20170425-1700.zip` 파일 다운로드  
    2. <http://community.polarion.com/projects/subversive/download/eclipse/6.0/builds/?C=M;O=A> 에 접속하여 `Subversive-connectors-allplatforms-6.0.4.I20161211-1700.zip` 파일 다운로드  
    3. 이클립스 > Help > Install New Software
@@ -276,14 +314,14 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
    7. Arguments 탭 클릭 > VM arguments 에 `-Dspring.profiles.active=local` 추가
 
 ## 3.4. 소스 버전 관리
-※ 프로젝트 환경에 따라 설정 정보 입력 예정
+※ 프로젝트 환경에 따라 설정 정보 입력
 
 
 # 4.개발 가이드
 
 ## 4.1. 공통
 ### 4.1.1. Logging 처리
-- LogBack 라이브러리를 이용하여 debug 및 중요한 정보 Tracing 처리를 합니다.  
+- LogBack 라이브러리를 이용하여 debug 및 중요한 정보에 대해 Tracing 처리를 합니다.  
 - 로그레벨을 조정하여 로그를 남길 수 있도록 지원합니다. 
 > 주의) System.out.println() 사용을 최대한 피하도록 합니다. 
 
@@ -291,11 +329,16 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 | Level |  역할 및 기능 | 개발자 사용여부 |
 | ----- | ----- | ----- |
 | error | 비즈니스 오류나 업무에서 발생되어서는 안되는 경우를 체크하기 위함 | X |
-| debug | 개발 시 디버그를 위해 사용. <br>운영 시 디버그 로그가 남지 않는다. | X |
+| debug | 개발 시 디버그를 위해 사용. <br>운영 시 디버그 로그가 남지 않는다. | O |
 | warn  | 비즈니스 측면에서 충분히 발생할 수 있는 에러 상황에 대한 로그 기록시 사용.<br> 당장 조치할 성격이 아닌 경우 경고성으로 남긴다. | X |
-| info  | 운영 시 정보 성격의 로그를 남길 때 사용한다. <br>예를 들어 사용자 최초 접속여부나  어개발 시 디버그를 위해 사용. <br>운영 시 디버그 로그가 남지 않는다. | X |
+| info  | 운영 시 정보 성격의 로그를 남길 때 사용한다. <br> ex) 사용자 최초 접속여부 등| O |
 
-#### 2) 로그 Trace 예제
+#### 2) 로그 설정
+`파일위치 : {PROJECT_ROOT}/src/main/resources/config/log`
+- 총 4개의 파일이 존재하며 logback.xml의 설정을 상속받아 각 서버 별로 logback-{서버profile}.xml 파일로 관리됩니다. (prod-운영, dev-개발, local-로컬)
+- Java 옵션 `-Dspring.profiles.active=local` 설정으로 서버를 구분합니다. (Tomcat 설정시 Start Option으로 설정)  
+
+#### 3) 로그 Trace 예제
 ```java
 @Slf4j /* lombok에서 제공하는 annotation을 이용하여 logger를 생성한다. */
 @Service
@@ -319,12 +362,19 @@ public class UserService {
 
 ```
 
-### 4.1.2. Message 처리
+### 4.1.2. Properties
+`파일위치 : {PROJECT_ROOT}/src/main/resources/config`
+- 총 3개의 파일이 존재하며 각 서버 별로 config-{서버profile}.properties 파일로 관리됩니다. (prod-운영, dev-개발, local-로컬)
+- Java 옵션 `-Dspring.profiles.active=local` 설정으로 서버를 구분합니다. (Tomcat 설정시 Start Option으로 설정)
+
+### 4.1.3. Message 처리
 - 해당 프로젝트는 다국어 지원을 위해 MessageSourceAccessor 를 사용합니다. 
 - Locale은 xml config에서 설정합니다. 
 
 #### 1) XML Config 설정 
-- 파일위치 : /src/main/resources/config/spring/application-servlet.xml
+
+`파일위치 : {PROJECT_ROOT}/src/main/resources/config/spring/application-servlet.xml`
+
 ```xml
    <!-- Message 관련 설정 -->
    <bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
@@ -347,11 +397,10 @@ public class UserService {
 
 #### 2) 메세지 처리
 
-- properties file 위치 :
-   - /src/main/resources/message/msg_ko_KR.properties  
-   - /src/main/resources/message/msg_en_US.properties
+`파일위치 : {PROJECT_ROOT}/src/main/resources/message`
 
 - Server단 메세지 처리
+
 ```
 msg_ko_KR.properties
 required={0}) {1}은 필수항목입니다. 
@@ -359,6 +408,7 @@ required={0}) {1}은 필수항목입니다.
 msg_en_US.properties 
 required={0}) {1} is a required field.
 ```
+
 ```java
    @Autowired
    private MessageSourceAccessor message;
@@ -377,6 +427,7 @@ required={0}) {1} is a required field.
 ```
 
 - Client단 메세지 처리
+
 ```
 msg_ko_KR.properties
 login=로그인 
@@ -387,10 +438,9 @@ login=Login
 ```html
 <%@ taglib prefix="sp" uri="http://www.springframework.org/tags"%>
 <sp:message code="login" /> <!-- output : 로그인 -->
-
 ```
 
-### 4.1.3. Validation
+### 4.1.4. Validation
 - JSR 380 spec을 사용하여 annotation을 이용한 자동 검증 방식을 사용합니다.
 - javax.validation.Valid annotation을 Controller에 적용하여 내부적으로 검증이 수행됩니다.   
 

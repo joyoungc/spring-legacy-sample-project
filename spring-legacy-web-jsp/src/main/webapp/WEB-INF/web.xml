@@ -77,7 +77,5 @@
         <error-code>500</error-code>
         <location>/WEB-INF/jsp/common/error.jsp</location>
     </error-page>
-	
-	
     
 </web-app>
