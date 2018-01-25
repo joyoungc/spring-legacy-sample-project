@@ -27,7 +27,8 @@
 ## &nbsp; [4.1. 공통](#)
 ### &nbsp;&nbsp; [4.1.1. Logging 처리](#)
 ### &nbsp;&nbsp; [4.1.2. Message 처리](#)
-### &nbsp;&nbsp; [4.1.3. Validation](#)
+### &nbsp;&nbsp; [4.1.3. Properties](#)
+### &nbsp;&nbsp; [4.1.4. Validation](#)
 
 ## &nbsp; [4.2. 신규 모듈 개발](#)
 ### &nbsp;&nbsp; [4.2.1. View](#)
@@ -699,6 +700,4 @@ public interface UserDao {
 
 ## 4.4. 빌드 및 배포
 
-## 4.5. 모니터링
-
-## 4.6. 권한관리
+## 4.5. 서버 모니터링

@@ -39,11 +39,13 @@ public class UserService {
 		userDao.updateUser(user);
 	}
 
+	@Transactional
 	public void createUser(UserDTO.Create dto) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Transactional
 	public User deleteUser(String userId) {
 		// TODO Auto-generated method stub
 		return null;

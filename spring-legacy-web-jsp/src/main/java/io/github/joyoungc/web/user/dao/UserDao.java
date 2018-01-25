@@ -19,5 +19,7 @@ public interface UserDao {
 
 	User getUser(String userId);
 	
-	void updateUser(User user);
+	int updateUser(User user);
+
+	int createUser(User user);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.github.joyoungc.web.user.model.User;
 import io.github.joyoungc.web.user.model.UserDTO;
@@ -52,6 +53,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/rest/users")
+	@ResponseBody
 	public List<User> selectUser(UserDTO.Read read) {
 		return userService.selectUser(null);
 	}

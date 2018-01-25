@@ -12,7 +12,7 @@
 	<!-- 기본 환경설정용 properties 파일을 읽는 설정 -->
 	<util:properties id="config" location="classpath:/config/config-local.properties" />
 	
-	<context:component-scan base-package="io.github.joyoungc.web" use-default-filters="false">
+	<context:component-scan base-package="io.github.joyoungc" use-default-filters="false">
 	 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />		
