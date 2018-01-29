@@ -123,7 +123,7 @@ Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory 
 - 첫 글자는 대문자로 시작하며, 단어를 2개 이상 조합하는 경우 Camel 표기법을 따릅니다. `ex) UserService`
 - 단어를 구분하기 위해서 밑줄(`_`)을 사용하지 않습니다. 
 
-**ex) Layer별 Class 명명 규칙**
+_ex) Layer별 Class 명명 규칙_
 
 | Layer 계층 |  접미사 | 예제 |
 | ----- | ----- | ----- |
@@ -147,7 +147,7 @@ Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory 
    }
 ```
 
-**ex) Role별 Method 명명 규칙**
+_ex) Role별 Method 명명 규칙_
 
 | Role |  prefix | subfix | example |
 | ----- | ----- | ----- | ----- |
@@ -697,6 +697,116 @@ public interface UserDao {
 - MyBatis 파라미터 바인딩 시 문자열 대체는 사용을 금지합니다. ex) ${param}
 
 ## 4.3. SQL가이드
+
+### 4.3.1 INDEX
+
+#### 1) 원리 및 목적
+- 해당 테이블의 컬럼을 색인화(따로 파일로 저장)하여 검색시 해당 테이블의 레코드를 FULL SCAN 하는게 아니라 색인화 되어있는 INDEX 파일을 검색하여 검색속도를 빠르게 합니다.
+- 테이블의 기본 키는 자동으로 인덱스 됩니다.
+- 키 값을 기초로 하여 테이블에서 검색과 정렬 속도를 향상시킵니다.
+- 질의나 보고서에서 그룹화 작업의 속도를 향상시킵니다.
+
+#### 2) 인덱스 생성 대상과 유의사항
+- 인덱스는 컬럼 단위로 생성합니다.
+- WHERE절에서 사용되는 컬럼을 인덱스 대상으로 합니다.
+- JOIN에 자주 사용되는 컬럼에도 인덱스를 생성하는 것을 권장합니다.
+- 외래키가 사용되는 컬럼에는 인덱스를 되도록 생성하는 것을 권장합니다.
+- 데이터의 중복도가 높은 컬럼은 인덱스를 생성해도 효용이 없습니다. (예 : 성별 등 타입이 별로 없는 경우, 표본 데이터가 적은 경우)
+- INSERT / UPDATE / DELETE가 얼마나 자주 일어나는지를 고려해야 합니다.
+- 사용하지 않는 인덱스는 제거하도록 합니다.
+- 필드 중에는 데이터 형식 때문에 인덱스 될 수 없는 필드도 있습니다.
+
+#### 3) INDEX가 타지 않는 경우
+
+- **인덱스 컬럼의 변형**
+
+_ex) 인덱스 컬럼 변형 SQL과 회피방법 (SAL, HIREDATE 에 INDEX 설정)_
+```sql
+SELECT ENAME FROM EMP
+ WHERE SAL * 3.1 > 950 /* 인덱스 사용 불가 */
+ 
+SELECT ENAME FROM EMP
+ WHERE SAL > 950 / 3.1 /* 인덱스 사용 가능 */
+ 
+SELECT ENAME FROM EMP
+ WHERE TO_CHAR(HIREDATE, 'YYYYMMDD') = '20170101' /* 인덱스 사용 불가 */
+ 
+SELECT ENAME FROM EMP
+ WHERE HIREDATE = TO_DATE('20170101', 'YYYYMMDD')  /* 인덱스 사용 가능 */
+```
+_ex) 함수 기반 인덱스 생성과 인덱스 적용 Sql_
+```sql 
+CREATE INDEX ENAME_FIDX ON EMP SUBSTR(ENAME,1,1); /* 함수 기반 인덱스 생성 */
+
+SELECT ENAME FROM EMP
+ WHERE SUBSTR(ENAME,1,1) = 'J' /* 인덱스 사용 가능 */  
+```
+
+- **데이터 변환**
+
+_ex) 데이터 변환 SQL_
+```sql
+SELECT ENAME FROM EMP
+ WHERE HIREDATE = '2017-01-01'  /* DB 종류 및 버전, 상황에 따라 인덱스 사용 (불)가능 */
+
+SELECT ENAME FROM EMP
+ WHERE HIREDATE = TO_DATE('2017-01-01', 'YYYY-MM-DD')  /* 인덱스 사용 가능 */
+ 
+SELECT ENAME FROM EMP
+ WHERE EMPNO = 7913  /* EMPNO가 CHAR형인 경우 인덱스 사용 불가*/
+ 
+SELECT ENAME FROM EMP
+ WHERE EMPNO = TO_CHAR(7913)  /* 인덱스 사용 가능 */ 
+```
+
+- **NULL 조건 사용**
+
+_ex) NULL을 사용하는 SQL_
+```sql
+SELECT ENAME FROM EMP
+ WHERE DEPT IS NULL /* 인덱스에 NULL은 포함되지 않음. 인덱스 사용 불가 */
+
+SELECT ENAME FROM EMP
+ WHERE DEPT IS NOT NULL   /* DB 종류 및 버전, 상황에 따라 인덱스 사용 (불)가능 */
+ 
+SELECT ENAME FROM EMP
+ WHERE DEPT > '' /* 인덱스 사용 가능 */ 
+ 
+SELECT ENAME FROM EMP
+ WHERE DEPTNO >= 0 /* 인덱스 사용 가능 */ 
+```
+
+- **부정형 조건**
+
+_ex) 부정형을 사용하는 SQL과 회피 방법_
+```sql
+SELECT ENAME FROM EMP
+ WHERE DEPTNO != 130 /* 인덱스 사용 불가 */
+
+SELECT ENAME FROM EMP
+ WHERE DEPTNO < 130
+    OR DEPTNO > 130 /* 인덱스 사용가능 */
+
+SELECT ENAME FROM EMP
+ WHERE NOT EXISTS
+ 	(SELECT '' FROM EMP WHERE DEPTNO = 130) /* 인덱스 사용 가능 */ 
+ 	
+SELECT ENAME FROM EMP
+ MINUS SELECT '' FROM EMP WHERE DEPTNO = 130 /* 인덱스 사용 가능(정렬 발생) */
+
+```
+
+- **LIKE 연산자**
+
+_ex) LIKE 연산자 SQL_
+```sql
+SELECT ENAME FROM EMP
+ WHERE ENAME LIKE 'S%' /* 인덱스 사용 가능 */
+
+SELECT ENAME FROM EMP
+ WHERE ENAME LIKE '%S%' /* 인덱스 사용 불가 */
+```
+
 
 ## 4.4. 빌드 및 배포
 
