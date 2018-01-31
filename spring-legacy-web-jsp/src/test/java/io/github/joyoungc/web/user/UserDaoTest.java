@@ -72,5 +72,14 @@ public class UserDaoTest {
 		User result = userDao.getUser("createTest");
 		assertThat(result, is(user));
 	}
+	
+	@Test
+	public void deleteUserTest() {
+		int resultCount = userDao.deleteUser(testUserId);
+		assertThat(resultCount, is(1));
+		
+		User result = userDao.getUser(testUserId);
+		assertThat(result, nullValue());
+	}
 
 }

@@ -807,7 +807,24 @@ SELECT ENAME FROM EMP
  WHERE ENAME LIKE '%S%' /* 인덱스 사용 불가 */
 ```
 
+## 4.4. 테스트
 
-## 4.4. 빌드 및 배포
+### 4.4.x. Cross Reference
 
-## 4.5. 서버 모니터링
+_ex) 향상된 assertThat을 이용해 기존 assert method 대체_
+
+| OLD ASSERT METHOD | EQUIVALENT WITH ASSERTTHAT | STATIC IMPORTS | NOTES |
+|-----|-----|-----|-----|
+|assertEquals("expected", "actual");|assertThat("actual", is("expected"));|org.hamcrest.core.Is.is|"is" is short hand for is(equalTo())|
+|assertArrayEquals(new String[] {"test1", "test2"}, new String[] {"test3", "test4"});|assertThat(new String[] {"test3", "test4"}, is(new String[] {"test1", "test2"}));|org.hamcrest.core.Is.is|The error message looks like this: java.lang.AssertionError:<br>Expected: is ["test1", "test2"]<br>got: ["test3", "test4"]|
+|assertTrue(value); or <br>assertFalse(value);|assertThat(actual, is(true));<br>assertThat(actual, is(false));|org.hamcrest.core.Is.is|The error message looks like this (depending on the values): java.lang.AssertionError:<br>Expected: is true<br>got: false|
+|assertNull(value); or <br>assertNotNull(value);|assertThat(actual, nullValue());<br>assertThat(actual, notNullValue());|org.hamcrest.core.IsNull.notNullValue<br>org.hamcrest.core.IsNull.nullValue;|The error message looks like this (depending on the values):<br>java.lang.AssertionError:<br>Expected: not null<br>got: null<br>Also both matchers can be typed as such:<br>assertThat(actual, nullValue(String.class)); <br>which means the actual argument must be a string.|
+|assertSame(expected, actual); or <br>assertNotSame(expected, actual);|assertThat(actual, sameInstance(expected));<br>assertThat(actual, not(sameInstance(expected)));|org.hamcrest.core.IsNot.not<br>org.hamcrest.core.IsSame.sameInstance|The error message looks like this (depending on the values): <br>java.lang.AssertionError:<br>Expected: sameInstance("test")<br>got: "test"<br>using: String actual = new String("test");<br>String expected = new String("test");|
+|assertTrue(1 > 3);|assertThat(1, greaterThan(3));|org.hamcrest.number.OrderingComparison.greaterThan|The error message is similar to the pattern above rather than "java.lang.AssertionError" OrderingComparison also contains: "comparesEqualTo", "greaterThanOrEqualTo", "lessThan" and "lessThanOrEqualTo"|
+|assertTrue("abc".contains("d"));|assertThat("abc", containsString("d"));|oorg.hamcrest.core.StringContains.containsString|The error message is similar to the pattern above.|
+|assertTrue("abc".contains("d"));|assertThat("abc", containsString("d"));|oorg.hamcrest.core.StringContains.containsString|The error message is similar to the pattern above. See also in the same package: StringStartsWith, StringEndsWith|
+
+## 4.5. 빌드 및 배포
+
+
+## 4.6. 서버 모니터링

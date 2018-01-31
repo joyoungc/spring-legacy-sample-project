@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -30,15 +31,25 @@ public class MybatisConfig {
         // MyBatis가 사용할 DataSource를 등록
         factoryBean.setDataSource(dataSource);
 
-        // MyBatis config파일 위치 설정
-        factoryBean.setConfigLocation(applicationContext.getResource("classpath:sql/mybatis-config.xml"));
-
         // io.github.joyoungc.web.admin.model 패키지 이하의 model 클래스 이름을 짧은 별칭으로 등록
         // ; 으로 구분지어 다른 패키지들도 등록가능
         factoryBean.setTypeAliasesPackage("io.github.joyoungc.web.user.model;io.github.joyoungc.web.admin.model");
 
         // sql/**/*-mapper.xml로 지정된 모든 XML을 Mapper로 등록
         factoryBean.setMapperLocations(applicationContext.getResources("classpath:sql/**/*-mapper.xml"));
+        
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        
+        // null 처리시 에러 방지 ex) Oracle - 부적합한 열 유형 : 1111
+        configuration.setJdbcTypeForNull(JdbcType.NULL);
+        
+        // SELECT 문에 있는 column을 CamelCase로 자동 매핑 ex) USER_NAME -> userName
+        configuration.setMapUnderscoreToCamelCase(true);
+        
+        // 데이터가 null 값이더라도 setter를 호출한다. resultType을 Map으로 설정시 null 값이 제외되는 현상 방지)
+        configuration.setCallSettersOnNulls(true);
+        
+        factoryBean.setConfiguration(configuration);
 
         return factoryBean;
     }

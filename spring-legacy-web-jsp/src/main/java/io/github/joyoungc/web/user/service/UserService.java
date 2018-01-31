@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.github.joyoungc.web.common.exception.DataNotFoundException;
 import io.github.joyoungc.web.user.dao.UserDao;
 import io.github.joyoungc.web.user.model.User;
 import io.github.joyoungc.web.user.model.UserDTO;
@@ -28,27 +29,33 @@ public class UserService {
 	}
 
 	public User getUser(String userId) {
+		log.debug("## params : {}", userId);
 		return userDao.getUser(userId);
 	}
 
 	@Transactional
 	public void updateUser(UserDTO.Update dto, String userId) {
+		log.debug("## params : {}", dto);
 		User user = modelMapper.map(dto, User.class);
 		user.setUserId(userId);
-		log.debug("## user : {}", user);
-		userDao.updateUser(user);
+		int result = userDao.updateUser(user);
+		
+		if (result < 1) {
+			throw new DataNotFoundException("User Not Exist");
+		}
 	}
 
 	@Transactional
 	public void createUser(UserDTO.Create dto) {
-		// TODO Auto-generated method stub
-		
+		log.debug("## params : {}", dto);
+		User user = modelMapper.map(dto, User.class);
+		userDao.createUser(user);
 	}
 
 	@Transactional
-	public User deleteUser(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteUser(String userId) {
+		log.debug("## params : {}", userId);
+		userDao.deleteUser(userId);
 	}
 
 }

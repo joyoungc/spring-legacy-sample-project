@@ -5,26 +5,10 @@
 <html lang="ko">
 <head>
 <jsp:include page="/WEB-INF/jsp/common/head.jsp" />
-<style>
-html, body {
-  height: 100%;
-}
-
-.vertical-align {
-    display: flex;
-    align-items: center;
-}
-
-.vertical-center {
-	display: flex;
-    justify-content: center;
-    align-items: center;
-}
-</style>
 <title>로그인 화면</title>
 </head>
 <body>
-	<div class="container-fluid vertical-center">
+	<div class="container">
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 				<div class="panel panel-default">
@@ -32,7 +16,7 @@ html, body {
 						<h3 class="panel-title"><sp:message code="login" /></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="/login" method="POST">
+						<form role="form" action="${contextPath}/login" method="POST">
 							<c:if test="${param.error != null}">
 								<div class="alert alert-danger">
 									<p>Invalid username and password.</p>

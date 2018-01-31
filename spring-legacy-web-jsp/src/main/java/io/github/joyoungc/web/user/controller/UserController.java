@@ -65,6 +65,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/rest/users/{userId}")
+	@ResponseBody
 	public User getUser(@PathVariable String userId) {
 		return userService.getUser(userId);
 	}
@@ -86,8 +87,8 @@ public class UserController {
 	 * @return
 	 */
 	@DeleteMapping("/rest/users/{userId}")
-	public User deleteUser(@PathVariable String userId) {
-		return userService.deleteUser(userId);
+	public void deleteUser(@PathVariable String userId) {
+		userService.deleteUser(userId);
 	}
 
 }

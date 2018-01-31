@@ -14,12 +14,15 @@ import io.github.joyoungc.web.user.model.User;
 
 @Repository
 public interface UserDao {
-	
+
 	List<User> selectUser(User user);
 
 	User getUser(String userId);
-	
+
 	int updateUser(User user);
 
 	int createUser(User user);
+
+	int deleteUser(String userId);
+	
 }

@@ -15,12 +15,15 @@ public class UserDTO {
 		
 		@NotBlank
 		@Size(min = 4, max = 20)
+		private String userId;
+		
+		@NotBlank		
 		private String userName;
 		
 		@NotBlank
 		private String password;
 		
-		@NotNull		
+		@NotNull
 		@Range(min=0, max=1)
 		private Integer enabled;
 	}
@@ -30,7 +33,6 @@ public class UserDTO {
 		@NotBlank
 		private String userName;
 		private String password;
-		@NotNull
 		private Integer enabled;
 	}
 	

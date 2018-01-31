@@ -24,19 +24,26 @@
 		 WHERE USER_ID = #{userId}
 	</select>
 	
+	<!-- 사용자 수정 -->
 	<update id="updateUser" parameterType="User">
-		UPDATE TB_USER	/* [user/user-mapper.xml] updateUser */
+		UPDATE /* [user/user-mapper.xml] updateUser */
+			TB_USER	
 	       SET
 			USER_NAME = #{userName},
 		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(password)">
 			PASSWORD = #{password},
 		</if>
+		<if test="enabled != null">
+			ENABLED = #{enabled},
+		</if>		
 			UPT_DT = CURRENT_TIMESTAMP
-		WHERE USER_ID = #{userId}	
+		WHERE USER_ID = #{userId}
 	</update>
 	
+	<!-- 사용자 등록 -->
 	<insert id="createUser" parameterType="User">
-		INSERT INTO	TB_USER	/* [user/user-mapper.xml] updateUser */ 
+		INSERT /* [user/user-mapper.xml] updateUser */
+		  INTO TB_USER
 			(
 				USER_ID, 
 				USER_NAME, 
@@ -51,5 +58,12 @@
 				#{enabled}
 			)
 	</insert>
+	
+	<!-- 사용자 삭제 -->
+	<delete id="deleteUser" parameterType="String">
+		DELETE /* [user/user-mapper.xml] deleteUser */
+		  FROM TB_USER 
+		 WHERE USER_ID = #{userId}
+	</delete>
 
 </mapper>
