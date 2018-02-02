@@ -1,57 +1,72 @@
-<img src="images/spring-framework.png" width="80" height="80"/> spring-legacy-sample-project
+<img src="images/spring-framework.png" width="80" height="80"/> spring-legacy-sample-project (작업중)
 ==========================
 
 # Table of Contents
 
-# [1. 소개](#)
-## &nbsp; [1.1. 목적](#)
-## &nbsp; [1.2. 대상](#)
+# [1. 소개](#1)
+## &nbsp; [1.1. 목적](#1_1)
 
-# [2. 개발 표준](#)
-## &nbsp; [2.1. Application 환경](#)
-## &nbsp; [2.2. 디렉토리 구조](#)
-## &nbsp; [2.3. Naming Convention](#)
-## &nbsp; [2.4. Spring Framework](#)
-### &nbsp;&nbsp; [2.4.1. Configuration](#)
+# [2. 개발 표준](#2)
+## &nbsp; [2.1. Application 개발환경](#2_1)
+## &nbsp; [2.2. 디렉토리 구조](#2_2)
+## &nbsp; [2.3. Naming Convention](#2_3)
+### &nbsp;&nbsp; [2.3.1. Naming 개요](#2_3_1)
+### &nbsp;&nbsp; [2.3.2. Package Naming Rules](#2_3_2)
+### &nbsp;&nbsp; [2.3.3. Class Naming Rules](#2_3_3)
+### &nbsp;&nbsp; [2.3.4. Method Naming Rules](#2_3_4)
+### &nbsp;&nbsp; [2.3.5. Constant Naming Rules](#2_3_5)
+### &nbsp;&nbsp; [2.3.6. VO(or DTO) Naming Rules](#2_3_6)
+## &nbsp; [2.4. Spring Framework](#2_4)
+### &nbsp;&nbsp; [2.4.1. Configuration](#2_4_1)
+
 ## &nbsp; [2.x. Spring Batch](#)
 ## &nbsp; [2.x. Spring Security](#)
 
-# [3. 개발환경 설정](#)
-## &nbsp; [3.1. IDE 설치](#)
-### &nbsp;&nbsp; [3.1.1. Plugin 설치](#)
-## &nbsp; [3.2. Maven 설치 및 설정](#)
-## &nbsp; [3.3. Tomcat 설정](#)
-## &nbsp; [3.4. 소스버전관리](#)
+# [3. 개발환경 설정](#3)
+## &nbsp; [3.1. IDE 설치](#3_1)
+### &nbsp;&nbsp; [3.1.1. Plugin 설치](#3_1_1)
+## &nbsp; [3.2. Maven 설치 및 설정](#3_2)
+## &nbsp; [3.3. Tomcat 설정](#3_3)
+## &nbsp; [3.4. 소스버전관리](#3_4)
 
-# [4. 개발가이드](#)
-## &nbsp; [4.1. 공통](#)
-### &nbsp;&nbsp; [4.1.1. Logging 처리](#)
-### &nbsp;&nbsp; [4.1.2. Message 처리](#)
-### &nbsp;&nbsp; [4.1.3. Properties](#)
-### &nbsp;&nbsp; [4.1.4. Validation](#)
+# [4. 개발 가이드](#4)
+## &nbsp; [4.1. 공통](#4_1)
+### &nbsp;&nbsp; [4.1.1. Logging 처리](#4_1_1)
+### &nbsp;&nbsp; [4.1.2. Properties](#4_1_2)
+### &nbsp;&nbsp; [4.1.3. Message 처리](#4_1_3)
+### &nbsp;&nbsp; [4.1.4. Validation](#4_1_4)
+## &nbsp; [4.2. 신규 모듈 개발](#4_2)
+### &nbsp;&nbsp; [4.2.1. View](#4_2_1)
+### &nbsp;&nbsp; [4.2.2. Controller](#4_2_2)
+### &nbsp;&nbsp; [4.2.3. Service](#4_2_3)
+### &nbsp;&nbsp; [4.2.4. Dao](#4_2_4)
+### &nbsp;&nbsp; [4.2.5. SQL Mapper XML](#4_2_5)
+## &nbsp; [4.3. SQL가이드](#4_3)
+### &nbsp; [4.3.1. Database Naming Rules](#4_3_1)
+### &nbsp; [4.3.2. INDEX](#4_3_2)
+## &nbsp; [4.4. 테스트](#4_4)
+### &nbsp;&nbsp; [4.4.1. ](#)
+## &nbsp; [4.5. 빌드 및 배포](#)
+### &nbsp;&nbsp; [4.5.1. Project 빌드](#)
+### &nbsp;&nbsp; [4.5.2. 서버 배포](#)
+## &nbsp; [4.6. 서버 모니터링](#)
+### &nbsp;&nbsp; [4.6.1. Log 분석](#)
 
-## &nbsp; [4.2. 신규 모듈 개발](#)
-### &nbsp;&nbsp; [4.2.1. View](#)
-### &nbsp;&nbsp; [4.2.2. Controller](#)
-### &nbsp;&nbsp; [4.2.3. Service](#)
-### &nbsp;&nbsp; [4.2.4. Dao](#)
-### &nbsp;&nbsp; [4.2.5. SQL Mapper XML](#)
-
-## &nbsp; [4.3. SQL가이드](#)
-### &nbsp; [4.3.1. DB Naming Rules](#)
-
-## &nbsp; [4.4. 빌드 및 배포](#)
-### &nbsp;&nbsp; [4.4.1. Project 빌드](#)
-### &nbsp;&nbsp; [4.4.2. 서버 배포](#)
-
-## &nbsp; [4.5. 서버 모니터링](#)
-### &nbsp;&nbsp; [4.5.1. Log 분석](#)
+<a name="1"/>
 
 # 1.소개
+
+<a name="1_1"/>
+
 ## 1.1. 목적
 Spring 기반으로 진행되는 Web Application 프로젝트를 위한 샘플 소스입니다.
 
+<a name="2"/>
+
 # 2.개발 표준
+
+<a name="2_1"/>
+
 ## 2.1. Application 개발환경
 
 | 구분 |  제품명 | Version |  비고 |
@@ -63,6 +78,8 @@ Spring 기반으로 진행되는 Web Application 프로젝트를 위한 샘플 �
 | ORM | MyBatis | 3.4.5 |  |
 | UI | Bootstrap, jQuery | 3.3.7, 3.2.1 |  |
 | IDE | Eclipse | 4.7.2 (Oxygen) |  |
+
+<a name="2_2"/>
 
 ## 2.2. 디렉토리 구조
 Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory Layout 구조를 따릅니다. 
@@ -105,7 +122,11 @@ Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory 
     └── {업무레벨1}.{업무레벨2}  * 테스트 클래스 패키지
 ```
 
+<a name="2_3"/>
+
 ## 2.3. Naming Convention
+
+<a name="2_3_1"/>
 
 ### 2.3.1. Naming 개요
 - 모든 명칭은 의도가 명확하고 이해가 가능한 Full English 조합 방식을 사용합니다. 
@@ -113,10 +134,14 @@ Maven 프로젝트에서 정의된 Web Application을 위한 Standard Directory 
 - 단어를 2개 이상 조합하는 경우 Camel 표기법을 따릅니다. `ex) userService`
 - 단순히 값을 반환하는 것이 아닌 복잡한 처리가 일어나는 method라면 get 대신 의미있는 이름을 사용합니다. `ex) loadUserByUsername`
 
+<a name="2_3_2"/>
+
 ### 2.3.2. Package Naming Rules
 - package 명은 모두 소문자를 사용합니다.
 - 모든 package는 {domain이름}.{업무레벨1}.{업무레벨2} 으로 시작합니다. 
 `ex) joyoungc.github.io.web.user`
+
+<a name="2_3_3"/>
 
 ### 2.3.3. Class Naming Rules
 - Class 이름은 명사를 사용합니다. 
@@ -134,6 +159,8 @@ _ex) Layer별 Class 명명 규칙_
 | SQL Mapper XML | [명사] + -mapper.xml | user-mapper.xml |
 | Utility Class | [명사] + Utils.java | CommonUtils.java |
 
+
+<a name="2_3_4"/>
 
 ### 2.3.4. Method Naming Rules
 - method 이름은 동사를 사용합니다. 
@@ -158,6 +185,7 @@ _ex) Role별 Method 명명 규칙_
 | 목록조회 | select |   | selectUser() |
 | 실행(배치,복합로직) | execute |   | executeBatch() |
 
+<a name="2_3_5"/>
 
 ### 2.3.5. Constant Naming Rules
 - 영어 대문자를 사용합니다. 
@@ -165,6 +193,8 @@ _ex) Role별 Method 명명 규칙_
 ```java
    public static final int MAX_REQUEST_COUNT = 5;
 ```
+
+<a name="2_3_6"/>
 
 ### 2.3.6. VO(or DTO) Naming Rules
 - DB Table과 1:1로 매핑되는 VO는 테이블명과 동일한 이름을 사용합니다.
@@ -210,8 +240,12 @@ public class UserDTO {
 }
 
 ```
+<a name="2_4"/>
 
 ## 2.4. Spring Framework
+
+<a name="2_4_1"/>
+
 ### 2.4.1. Configuration
 #### 1) XML Config
 XML 파일로 구성된 Configuration 목록입니다. 
@@ -265,10 +299,16 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 - @Cacheable : 해당 method를 Cache 처리 합니다. 최초 호출 이후 다음 실행건에 대해서는 캐싱된 데이터로 처리됩니다.
 - @Async : 해당 method를 비동기로 처리합니다. 
 
+<a name="3"/>
 
 # 3.개발환경 설정
 
+<a name="3_1"/>
+
 ## 3.1. IDE 설치 (Eclipse)
+
+<a name="3_1_1"/>
+
 ### 3.1.1. Plugin 설치
 #### 1) lombok plugin 설치
    1. C:\dev-project\maven\local\repository\org\projectlombok\lombok\1.16.16 의 lombok-1.16.16.jar 실행(더블클릭)
@@ -289,6 +329,8 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
    7. 이클립스 재시작
    8. `Subversive-connectors-allplatforms-6.0.4.I20161211-1700.zip` 파일로 3 ~ 7번 과정을 반복 
 
+<a name="3_2"/>
+
 ## 3.2. Maven 설치 및 설정
    1. <https://maven.apache.org/download.cgi> 에 접속하여 파일 다운로드
    2. C:\dev-project\maven에 압축 해제
@@ -302,7 +344,9 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
    4. 이클립스 > Preference > Maven > User Settings
    ![maven](images/001.png)
    5. User Setting을 C:\dev-project\maven\conf\settings.xml로 설정
-   
+
+<a name="3_3"/>
+
 ## 3.3. Tomcat 설정
    1. <https://tomcat.apache.org/download-80.cgi> 에 접속하여 설치 파일 다운로드
    2. C:\dev-project\tomcat에 압축 해제
@@ -314,13 +358,21 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
    ![tomcat](images/003.png)
    7. Arguments 탭 클릭 > VM arguments 에 `-Dspring.profiles.active=local` 추가
 
+<a name="3_4"/>
+
 ## 3.4. 소스 버전 관리
 ※ 프로젝트 환경에 따라 설정 정보 입력
 
+<a name="4"/>
 
 # 4.개발 가이드
 
+<a name="4_1"/>
+
 ## 4.1. 공통
+
+<a name="4_1_1"/>
+
 ### 4.1.1. Logging 처리
 - LogBack 라이브러리를 이용하여 debug 및 중요한 정보에 대해 Tracing 처리를 합니다.  
 - 로그레벨을 조정하여 로그를 남길 수 있도록 지원합니다. 
@@ -363,10 +415,14 @@ public class UserService {
 
 ```
 
+<a name="4_1_2"/>
+
 ### 4.1.2. Properties
 `파일위치 : {PROJECT_ROOT}/src/main/resources/config`
 - 총 3개의 파일이 존재하며 각 서버 별로 config-{서버profile}.properties 파일로 관리됩니다. (prod-운영, dev-개발, local-로컬)
 - Java 옵션 `-Dspring.profiles.active=local` 설정으로 서버를 구분합니다. (Tomcat 설정시 Start Option으로 설정)
+
+<a name="4_1_3"/>
 
 ### 4.1.3. Message 처리
 - 해당 프로젝트는 다국어 지원을 위해 MessageSourceAccessor 를 사용합니다. 
@@ -440,6 +496,8 @@ login=Login
 <%@ taglib prefix="sp" uri="http://www.springframework.org/tags"%>
 <sp:message code="login" /> <!-- output : 로그인 -->
 ```
+
+<a name="4_1_4"/>
 
 ### 4.1.4. Validation
 - JSR 380 spec을 사용하여 annotation을 이용한 자동 검증 방식을 사용합니다.
@@ -530,7 +588,12 @@ javax.validation.constraints.NotBlank.message={0} must not be blank
 
 > 더 자세한 내용은 [validator-defineconstraints-spec](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-defineconstraints-spec) 페이지를 참고하시기 바랍니다.
 
+<a name="4_2"/>
+
 ## 4.2. 신규 모듈 개발
+
+<a name="4_2_1"/>
+
 ### 4.2.1. View
 - src/main/webapp/WEB-INF/jsp 폴더 및에 업무레벨별로 폴더 생성 후 jsp 파일을 생성한다. 
 - 페이지별 공통 css, js import를 위해 `<head>` 태그 사이에 ```java <jsp:include page="/WEB-INF/jsp/common/head.jsp" /> ``` 를 삽입한다.
@@ -548,6 +611,8 @@ javax.validation.constraints.NotBlank.message={0} must not be blank
 <%@ taglib prefix="sp" uri="http://www.springframework.org/tags"%>		/* Spring */
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>	/* Spring Security */
 ```
+
+<a name="4_2_2"/>
 
 ### 4.2.2. Controller
 
@@ -593,6 +658,7 @@ public class UserController {
 - 파라미터에 @Valid 를 적용하여 Server Validation 을 활성화 한다.
 
 
+<a name="4_2_3"/>
 
 ### 4.2.3. Service
 
@@ -632,6 +698,7 @@ public class UserService {
 - Transaction은 Service Layer에서 설정하며 @Transactional 어노테이션을 이용해 활성화 한다. 
 - 조회를 제외한 등록, 수정, 삭제 메소드에 설정한다.
 
+<a name="4_2_4"/>
 
 ### 4.2.4. Dao
 ```java
@@ -657,6 +724,8 @@ public interface UserDao {
 ```xml
 	<select id="selectUser" resultType="User">
 ```
+
+<a name="4_2_5"/>
 
 ### 4.2.5. SQL Mapper XML
 
@@ -696,9 +765,21 @@ public interface UserDao {
 - 되도록 Ansi SQL 문법으로 작성합니다.
 - MyBatis 파라미터 바인딩 시 문자열 대체는 사용을 금지합니다. ex) ${param}
 
+<a name="4_3"/>
+
 ## 4.3. SQL가이드
 
-### 4.3.1 INDEX
+<a name="4_3_1"/>
+
+### 4.3.1 Database Naming Rules
+
+#### 1) Table 이름
+
+#### 2) Column 이름
+
+<a name="4_3_2"/>
+
+### 4.3.2 INDEX
 
 #### 1) 원리 및 목적
 - 해당 테이블의 컬럼을 색인화(따로 파일로 저장)하여 검색시 해당 테이블의 레코드를 FULL SCAN 하는게 아니라 색인화 되어있는 INDEX 파일을 검색하여 검색속도를 빠르게 합니다.
@@ -723,23 +804,23 @@ public interface UserDao {
 _ex) 인덱스 컬럼 변형 SQL과 회피방법 (SAL, HIREDATE 에 INDEX 설정)_
 ```sql
 SELECT ENAME FROM EMP
- WHERE SAL * 3.1 > 950 /* 인덱스 사용 불가 */
+ WHERE SAL * 3.1 > 950; /* 인덱스 사용 불가 */
  
 SELECT ENAME FROM EMP
- WHERE SAL > 950 / 3.1 /* 인덱스 사용 가능 */
+ WHERE SAL > 950 / 3.1; /* 인덱스 사용 가능 */
  
 SELECT ENAME FROM EMP
- WHERE TO_CHAR(HIREDATE, 'YYYYMMDD') = '20170101' /* 인덱스 사용 불가 */
+ WHERE TO_CHAR(HIREDATE, 'YYYYMMDD') = '20170101'; /* 인덱스 사용 불가 */
  
 SELECT ENAME FROM EMP
- WHERE HIREDATE = TO_DATE('20170101', 'YYYYMMDD')  /* 인덱스 사용 가능 */
+ WHERE HIREDATE = TO_DATE('20170101', 'YYYYMMDD');  /* 인덱스 사용 가능 */
 ```
 _ex) 함수 기반 인덱스 생성과 인덱스 적용 Sql_
 ```sql 
 CREATE INDEX ENAME_FIDX ON EMP SUBSTR(ENAME,1,1); /* 함수 기반 인덱스 생성 */
 
 SELECT ENAME FROM EMP
- WHERE SUBSTR(ENAME,1,1) = 'J' /* 인덱스 사용 가능 */  
+ WHERE SUBSTR(ENAME,1,1) = 'J'; /* 인덱스 사용 가능 */  
 ```
 
 - **데이터 변환**
@@ -747,16 +828,16 @@ SELECT ENAME FROM EMP
 _ex) 데이터 변환 SQL_
 ```sql
 SELECT ENAME FROM EMP
- WHERE HIREDATE = '2017-01-01'  /* DB 종류 및 버전, 상황에 따라 인덱스 사용 (불)가능 */
+ WHERE HIREDATE = '2017-01-01';  /* DB 종류 및 버전, 상황에 따라 인덱스 사용 (불)가능 */
 
 SELECT ENAME FROM EMP
- WHERE HIREDATE = TO_DATE('2017-01-01', 'YYYY-MM-DD')  /* 인덱스 사용 가능 */
+ WHERE HIREDATE = TO_DATE('2017-01-01', 'YYYY-MM-DD');  /* 인덱스 사용 가능 */
  
 SELECT ENAME FROM EMP
- WHERE EMPNO = 7913  /* EMPNO가 CHAR형인 경우 인덱스 사용 불가*/
+ WHERE EMPNO = 7913;  /* EMPNO가 CHAR형인 경우 인덱스 사용 불가*/
  
 SELECT ENAME FROM EMP
- WHERE EMPNO = TO_CHAR(7913)  /* 인덱스 사용 가능 */ 
+ WHERE EMPNO = TO_CHAR(7913);  /* 인덱스 사용 가능 */ 
 ```
 
 - **NULL 조건 사용**
@@ -764,16 +845,16 @@ SELECT ENAME FROM EMP
 _ex) NULL을 사용하는 SQL_
 ```sql
 SELECT ENAME FROM EMP
- WHERE DEPT IS NULL /* 인덱스에 NULL은 포함되지 않음. 인덱스 사용 불가 */
+ WHERE DEPT IS NULL; /* 인덱스에 NULL은 포함되지 않음. 인덱스 사용 불가 */
 
 SELECT ENAME FROM EMP
- WHERE DEPT IS NOT NULL   /* DB 종류 및 버전, 상황에 따라 인덱스 사용 (불)가능 */
+ WHERE DEPT IS NOT NULL;   /* DB 종류 및 버전, 상황에 따라 인덱스 사용 (불)가능 */
  
 SELECT ENAME FROM EMP
- WHERE DEPT > '' /* 인덱스 사용 가능 */ 
+ WHERE DEPT > ''; /* 인덱스 사용 가능 */ 
  
 SELECT ENAME FROM EMP
- WHERE DEPTNO >= 0 /* 인덱스 사용 가능 */ 
+ WHERE DEPTNO >= 0; /* 인덱스 사용 가능 */ 
 ```
 
 - **부정형 조건**
@@ -781,18 +862,18 @@ SELECT ENAME FROM EMP
 _ex) 부정형을 사용하는 SQL과 회피 방법_
 ```sql
 SELECT ENAME FROM EMP
- WHERE DEPTNO != 130 /* 인덱스 사용 불가 */
+ WHERE DEPTNO != 130; /* 인덱스 사용 불가 */
 
 SELECT ENAME FROM EMP
  WHERE DEPTNO < 130
-    OR DEPTNO > 130 /* 인덱스 사용가능 */
+    OR DEPTNO > 130; /* 인덱스 사용가능 */
 
 SELECT ENAME FROM EMP
  WHERE NOT EXISTS
- 	(SELECT '' FROM EMP WHERE DEPTNO = 130) /* 인덱스 사용 가능 */ 
+ 	(SELECT '' FROM EMP WHERE DEPTNO = 130); /* 인덱스 사용 가능 */ 
  	
 SELECT ENAME FROM EMP
- MINUS SELECT '' FROM EMP WHERE DEPTNO = 130 /* 인덱스 사용 가능(정렬 발생) */
+ MINUS SELECT '' FROM EMP WHERE DEPTNO = 130; /* 인덱스 사용 가능(정렬 발생) */
 
 ```
 
@@ -801,13 +882,18 @@ SELECT ENAME FROM EMP
 _ex) LIKE 연산자 SQL_
 ```sql
 SELECT ENAME FROM EMP
- WHERE ENAME LIKE 'S%' /* 인덱스 사용 가능 */
+ WHERE ENAME LIKE 'S%'; /* 인덱스 사용 가능 */
 
 SELECT ENAME FROM EMP
- WHERE ENAME LIKE '%S%' /* 인덱스 사용 불가 */
+ WHERE ENAME LIKE '%S%'; /* 인덱스 사용 불가 */
 ```
 
+
+<a name="4_4"/>
+
 ## 4.4. 테스트
+
+### 4.4.x. 테스트 코드 작성
 
 ### 4.4.x. Cross Reference
 
@@ -825,6 +911,5 @@ _ex) 향상된 assertThat을 이용해 기존 assert method 대체_
 |assertTrue("abc".contains("d"));|assertThat("abc", containsString("d"));|oorg.hamcrest.core.StringContains.containsString|The error message is similar to the pattern above. See also in the same package: StringStartsWith, StringEndsWith|
 
 ## 4.5. 빌드 및 배포
-
 
 ## 4.6. 서버 모니터링
