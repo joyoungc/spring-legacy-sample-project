@@ -197,7 +197,7 @@ _ex) Role별 Method 명명 규칙_
 <a name="2_3_6"/>
 
 ### 2.3.6. VO(or DTO) Naming Rules
-- DB Table과 1:1로 매핑되는 VO는 테이블명과 동일한 이름을 사용합니다.
+- DB Table과 1:1로 매핑되는 VO는 테이블명과 동일한 의미의 이름을 사용합니다.
 - DTO 구현시 static nested class로 Create(생성요청), Update(수정요청), Read(조회요청), Response(응답)를 구현합니다.
 
 | - | Table이름 |  VO명 | 생성요청 | 수정요청 | 조회요청 | 응답 |
@@ -636,11 +636,11 @@ public class UserController {
 
 ```
 #### 1) Controller 스테레오 타입 설정
-- @Controller 어노테이션 설정을 하여 Spring Bean에 등록되도록 한다.
+- @Controller 어노테이션 설정을 하여 Spring Bean에 등록되도록 합니다.
 
  
 #### 2) RequestMapping 설정 
-- 클래스 및 메소드 단위로 URL 매핑정보를 반영한다. 
+- 클래스 및 메소드 단위로 URL 매핑정보를 반영합니다. 
 
 #### 3) Method 작성
 ```java
@@ -654,8 +654,8 @@ public class UserController {
 		userService.createUser(dto);
 	}
 ```
-- GetMapping, PutMapping, PostMapping, DeleteMapping 을 사용하여 URL과 Http Method를 설정한다.
-- 파라미터에 @Valid 를 적용하여 Server Validation 을 활성화 한다.
+- GetMapping, PutMapping, PostMapping, DeleteMapping 을 사용하여 URL과 Http Method를 설정합니다.
+- 파라미터에 @Valid 를 적용하여 Server Validation 을 활성화 합니다.
 
 
 <a name="4_2_3"/>
@@ -692,11 +692,11 @@ public class UserService {
 ```
 
 #### 1) Service 스테레오 타입 설정
-- @Service 어노테이션 설정을 하여 Spring Bean에 등록되도록 한다.
+- @Service 어노테이션 설정을 하여 Spring Bean에 등록되도록 합니다.
 
 #### 2) Transaction 설정
-- Transaction은 Service Layer에서 설정하며 @Transactional 어노테이션을 이용해 활성화 한다. 
-- 조회를 제외한 등록, 수정, 삭제 메소드에 설정한다.
+- Transaction은 Service Layer에서 설정하며 @Transactional 어노테이션을 이용해 활성화 합니다. 
+- 조회를 제외한 등록, 수정, 삭제 메소드에 설정합니다.
 
 <a name="4_2_4"/>
 
@@ -774,8 +774,60 @@ public interface UserDao {
 ### 4.3.1 Database Naming Rules
 
 #### 1) Table 이름
+- 테이블임을 표시하기 위해 테이블 명 앞에 'TB_' 구분을 사용합니다.
+- 테이블명은 영문 대문자로 사용합니다.
+- 단어와 단어 사이는 '_' 로 구분합니다.
+- 각 단어는 최대 4자리까지 사용합니다.
+- 접미사는 Table의 특성을 나타냅니다.
+
+_ex) 자주 사용되는 접미사 목록_
+
+| Alias | Definition | Description |
+|-----|-----|-----|
+| MST | Master | 기준정보 테이블 |
+| DTL | Detail | 상세정보 테이블 |
+| HST | History | 이력 테이블 |
+| STC | Statistics | 통계 관련 테이블 |
+
+- 표기 방식
+TB + '_' + <업무분류> + '_' + <의미있는 테이블명> + '_' + 접미사(Option) 
+`ex) 스피링배치 JOB 실행 테이블 : TB_BATCH_JOB_EXECUTION , 공통 파일 이력 테이블 : TB_COMN_FILE_HST`
 
 #### 2) Column 이름
+- 컬럼명은 영문 대문자로 사용합니다.
+- Column에 대한 자리수는 총 12자리로 하며, 제한은 없습니다. 단, 사용하는 Database의 특성에 따라 제한될 수 있습니다.
+   - 참고로 Oracle 12.1 과 그 아래 버전은 object name 길이가 최대 30 bytes입니다.
+   - MySQL 5.5 이상 버전은 최대 64 Bytes 입니다.
+- 단어와 단어 사이는 '_' 로 구분합니다.
+- 각 단어는 최대 8자리까지 사용합니다.
+- 모든 Column은 Dictionary List에 등록된 약어사전 및 자료사전을 기초로 작성합니다.
+- Dictionary List에 등록되지 않은 약어는 DBA의 동의 하에 등록합니다. 
+- Column Name은 약어의 조합으로 구성합니다.
+- 컬럼명에 컬럼을 대표하는 접미사를 사용하여 컬럼명의 성격을 나타냄.
+
+_ex) 자주 사용되는 접미사 목록_
+
+| Alias | Definition | Description | Example |
+|-----|-----|-----|-----|
+| CD | Code | 공통 코드 테이블의 코드, 각종 코드에 사용 | ex) 카테고리 코드 CATE_CD, 사용자 그룹 코드 USR_GRP_CD 등 |
+| NM | Name | 코드에 대한 명칭에 주로 사용 | ex) 코드명 CD_NM, 사용자이름 USR_NM, 메뉴명 MENU_NM |
+| NO | Number | 숫자로만 이루어진 경우에 사용 | ex) 사원 번호 EMP_NO |
+| SEQ | Sequence | 오라클의 Sequence, MySQL의 auto_increment 처럼 숫자 일련번호로 PK를 설정하는 경우 사용 | ex) 이력번호 HST_SEQ |
+| ID | Identifier | 주로 사용자 아이디의 경우에 사용 | ex) 사용자 아이디 USR_ID, 등록자 아이디 REG_ID |
+| DT | DateTime | 날짜의 경우 사용. DT는 날짜 타입이 DATETIME 이나 TIMESTAMP 형인 경우에만 사용한다. 보통 날짜의 경우 CHAR(8)형으로 20050718식으로 저장을 많이 한다. 이런 경우에는 YMD를 사용한다. | ex) 수정일자 UPT_DT |
+| YMD | YYYYMMDD | 날짜의 경우 사용한다. 날짜 타입이 CHAR 인경우 사용한다. 년월일인 경우 _YMD를 사용하고, 년월형식으로 CHAR(6)로 저장될 경우 _YM을 사용한다. 년도, 월, 일자 인경우에는 YEAR, MONTH, DAY등의 컬럼명을 사용한다. |
+| TYP | Type | 구분값을 나타낼때 사용한다.  | ex) 통계구분 STAT_TYP |
+| STS | Status | 상태값이다. 주로 CHAR(1) 형식을 사용한다. | 사용자 상태 USER_STS |
+| YN | Yes or No | CHAR(1) 형식을 사용하여 0/1 이나 Y/N 로 표시한다. | ex) 사용여부 USE_YN |
+| ORD | Order | 순서를 나타낼 때 사용한다. | ex) 컬럼순서 COL_ORD |
+| CNT | Count | 카운트 | ex) 조회수 VIEW_CNT |
+| AMT | Amount | 양  | ex) 재고량 STOCK_AMT |
+| SUM | Sum | 합계 | ex) 년도합계 YEAR_SUM |
+
+- 표기방식
+<의미있는 컬럼명> + '_' + 접미사
+`ex) 사용자 아이디 : USR_ID`
+
 
 <a name="4_3_2"/>
 
@@ -897,9 +949,9 @@ SELECT ENAME FROM EMP
 
 ### 4.4.x. Cross Reference
 
-_ex) 향상된 assertThat을 이용해 기존 assert method 대체_
+_ex) 향상된 assertThat을 이용해 기존 assert method 대체_ ([The Benefits of Using assertThat over other Assert Methods in Unit Tests](https://objectpartners.com/2013/09/18/the-benefits-of-using-assertthat-over-other-assert-methods-in-unit-tests/))
 
-| OLD ASSERT METHOD | EQUIVALENT WITH ASSERTTHAT | STATIC IMPORTS | NOTES |
+| Old Assert Method | Equivalent with AssertThat | Static imports | Notes |
 |-----|-----|-----|-----|
 |assertEquals("expected", "actual");|assertThat("actual", is("expected"));|org.hamcrest.core.Is.is|"is" is short hand for is(equalTo())|
 |assertArrayEquals(new String[] {"test1", "test2"}, new String[] {"test3", "test4"});|assertThat(new String[] {"test3", "test4"}, is(new String[] {"test1", "test2"}));|org.hamcrest.core.Is.is|The error message looks like this: java.lang.AssertionError:<br>Expected: is ["test1", "test2"]<br>got: ["test3", "test4"]|
