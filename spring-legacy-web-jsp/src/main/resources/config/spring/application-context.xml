@@ -13,14 +13,14 @@
 	<!-- 기본 환경설정용 properties 파일 설정 -->
 	<util:properties id="config" location="classpath:/config/config-#{systemProperties['spring.profiles.active']}.properties" />
 	
+	<context:property-placeholder properties-ref="config" />
+	
 	<context:component-scan base-package="io.github.joyoungc" use-default-filters="false">
 	 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />		
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan> 
-	
-	<context:property-placeholder properties-ref="config" />
    
    	<!-- Spring 관련 xml configuration 임포트 -->
 	<import resource="classpath:/config/spring/context-*.xml" />

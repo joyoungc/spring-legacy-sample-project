@@ -304,6 +304,13 @@
 		    <version>2.2.6</version>
 		</dependency>
 		
+		<!-- IBM Watson -->
+		<dependency>
+			<groupId>com.ibm.watson.developer_cloud</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>4.2.1</version>
+		</dependency>		
+		
 		<!-- Java Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

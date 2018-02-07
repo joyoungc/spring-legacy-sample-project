@@ -19,7 +19,7 @@
 			USR_NM,
 			PASSWORD,
 			ENABLED
-		  FROM TB_USER
+		  FROM TB_ADM_USR
 	</select>
 	
 	<!-- 사용자 조회 -->
@@ -29,7 +29,7 @@
 			USR_NM,
 			PASSWORD,
 			ENABLED
-		  FROM TB_USER
+		  FROM TB_ADM_USR
 		 WHERE USR_ID = #{userId}
 	</select>
 	
@@ -38,14 +38,14 @@
 		SELECT /* [user/user-mapper.xml] selectUserAuthority */
 			USR_ID as userId,
 			ATH_CD as authCode
-		  FROM TB_USER_AUTH
+		  FROM TB_ADM_USR_ATH
 		 WHERE USR_ID = #{userId}
 	</select>	
 	
 	<!-- 사용자 수정 -->
 	<update id="updateUser" parameterType="User">
 		UPDATE /* [user/user-mapper.xml] updateUser */
-			TB_USER	
+			TB_ADM_USR	
 	       SET
 			USR_NM = #{userName},
 		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(password)">
@@ -61,7 +61,7 @@
 	<!-- 사용자 등록 -->
 	<insert id="createUser" parameterType="User">
 		INSERT /* [user/user-mapper.xml] updateUser */
-		  INTO TB_USER
+		  INTO TB_ADM_USR
 			(
 				USR_ID, 
 				USR_NM, 
@@ -80,7 +80,7 @@
 	<!-- 사용자 삭제 -->
 	<delete id="deleteUser" parameterType="String">
 		DELETE /* [user/user-mapper.xml] deleteUser */
-		  FROM TB_USER 
+		  FROM TB_ADM_USR 
 		 WHERE USR_ID = #{userId}
 	</delete>
 

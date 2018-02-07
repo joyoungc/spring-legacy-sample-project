@@ -13,7 +13,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:component-scan base-package="io.github.joyoungc" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-	</context:component-scan> 
+	</context:component-scan>
 	
 	<!-- Message 관련 설정 -->
 	<bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
@@ -61,7 +61,7 @@
 			application-context.xml 에 정의된 'config' property 설정 연결. 
 			JSP에서 property 접근하기 위한 용도. 
 		-->
-		<property name="exposedContextBeanNames" value="config"/>
+		<!-- <property name="exposedContextBeanNames" value="config"/> -->
 	</bean>	 
 	
 </beans>

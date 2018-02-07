@@ -1,8 +1,8 @@
 --------------------------------------------------------
---  DDL for Table TB_USER
+--  DDL for Table TB_ADM_USR
 --------------------------------------------------------
 
-CREATE TABLE TB_USER
+CREATE TABLE TB_ADM_USR
 (	"USR_ID" VARCHAR2(50) NOT NULL,
 	"USR_NM" VARCHAR2(100) NOT NULL,
 	"PASSWORD" VARCHAR2(255) DEFAULT NULL,
@@ -13,10 +13,10 @@ CREATE TABLE TB_USER
 );
 
 --------------------------------------------------------
---  DDL for Table TB_USER_AUTH
+--  DDL for Table TB_ADM_USR_ATH
 --------------------------------------------------------
 
-CREATE TABLE TB_USER_AUTH 
+CREATE TABLE TB_ADM_USR_ATH
 (	"USR_ID" VARCHAR2(50) NOT NULL, 
 	"ATH_CD" VARCHAR2(20),
 	"CRT_DT" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -29,7 +29,7 @@ CREATE TABLE TB_USER_AUTH
 --  DDL for Table TB_COMN_CODE
 --------------------------------------------------------
 
-CREATE TABLE TB_COMN_CODE 
+CREATE TABLE TB_COMN_CD 
 (	"CD_TYP" VARCHAR2(10) NOT NULL, 
 	"CD_ID" VARCHAR2(20) NOT NULL,
 	"CD_NM" VARCHAR2(200) NOT NULL,

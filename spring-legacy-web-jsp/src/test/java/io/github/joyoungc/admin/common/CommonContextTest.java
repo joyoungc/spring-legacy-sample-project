@@ -1,7 +1,7 @@
 package io.github.joyoungc.admin.common;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,14 +12,14 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -31,49 +31,40 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@ContextConfiguration(locations = { "classpath:test/config/spring/test-application-context.xml",
-		"classpath:config/spring/application-servlet.xml" })
-@WebAppConfiguration
-public class CommonTest {
+@ContextConfiguration(locations = { "classpath:test/config/spring/test-application-context.xml" })
+public class CommonContextTest {
 	
 	@Autowired
-	ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;
 
 	@Autowired
-	private MessageSourceAccessor message;
+	private UserBatchService userBatchService;
 	
 	@Autowired
-	public UserBatchService userBatchService;
+	private PasswordEncoder passwordEncoder;
 	
 	String json;
 	
 	@Before
 	public void setup() throws IOException {
 		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-		FileReader file = new FileReader("src/test/resources/test/data/outputData.json");
-		json = IOUtils.toString(file);
+/*		FileReader file = new FileReader("src/test/resources/test/data/outputData.json");
+		json = IOUtils.toString(file);*/
 	}
 	
 	@Test
-	public void messageSourceAccessorTest() {
-		
-		/* Case 1 */
-		String success = message.getMessage("success"); // args : 메시지코드
-		assertThat(success, is("성공입니다."));
-
-		/* Case 2 */
-		Object[] args = new String[] { "1", "userId" };
-		String required = message.getMessage("required", args); // args : 메시지코드, 메시지 Arguments 바인딩
-		assertThat(required, is("1) userId은 필수항목입니다."));
+	public void passwordEncoderTest() {
+		String encrypted = passwordEncoder.encode("qwer");
+		log.debug("## encrypted : {}", encrypted);
 	}
 	
-	// @Test
+	@Ignore
 	public void userBatchService() throws Exception {
 		JobExecution result = userBatchService.executeBatch();
 		assertThat("COMPLETED", is(result.getExitStatus().getExitCode()) );
 	}
 	
-	// @Test
+	@Ignore
 	public void regExTest() {
 		String test = "[|내용이 들어있다|]";
 		assertThat(test.startsWith("[|"), is(true));
@@ -81,7 +72,7 @@ public class CommonTest {
 		assertThat("내용이 들어있다", is(test));
 	}
 	
-	// @Test
+	@Ignore
 	public void timeTest() {
 		int max = 2000;
 		int min = 100;
@@ -89,13 +80,13 @@ public class CommonTest {
 		log.debug("## randomNum : {}" ,randomNum);
 	}
 	
-	@Test
+	@Ignore
 	public void jsonPathTest() {
 		assertThat(JsonPath.parse(json).read("$.output.text"), hasItem("TE_상품_0001"));
 		assertThat(JsonPath.parse(json).read("$.output.text[0]"), is("TE_상품_0001"));
 	}
 	
-	@Test
+	@Ignore
 	public void stringUtilsTest() {
 		String intentName = "TE_상품_0001";
 		assertThat("TE", is(StringUtils.left(intentName, 2)));
@@ -103,7 +94,7 @@ public class CommonTest {
 		log.info(StringUtils.abbreviate(resultCode, 13));
 	}	
 
-	@Test
+	@Ignore
 	public void stringTest() {
 		String str = "what is this!? 이것은 무엇??";
 		log.debug("{}",str.getBytes().length);
@@ -112,7 +103,7 @@ public class CommonTest {
 		assertThat(res.getBytes().length, is(13));
 	}
 	
-	@Test
+	@Ignore
 	public void hashMapTest() {
 		
 		HashMap<String, Object> map = new HashMap<>();

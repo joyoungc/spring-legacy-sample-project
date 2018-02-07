@@ -1,24 +1,18 @@
 package io.github.joyoungc.admin.common.util;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-@SuppressWarnings("unchecked")
 public class Constants {
-
-	public static final int MAX_REQUEST_REPEAT_COUNT = 5;
-	public static final Map<String, String> WORKSPACE_ID_MAP;
-
+	
+	public static final String BASE_PACKAGE = "io.github.joyoungc";
+	public static final String RESULT_MESSAGE = "resultMessage";
 	public static final String YES = "Y";
 	public static final String NO = "N";
+	
+	public static final int MAX_REQUEST_REPEAT_COUNT = 5;
+	// public static final Map<String, String> CONFIG_MAP;
 
 	static {
-		
+
+		/*
 		Map<String, Object> orgMap = null;
 		Map<String, String> resultMap = new HashMap<>();
 
@@ -35,7 +29,8 @@ public class Constants {
 			e1.printStackTrace();
 		}
 
-		WORKSPACE_ID_MAP = Collections.unmodifiableMap(resultMap);
+		CONFIG_MAP = Collections.unmodifiableMap(resultMap);
+		*/
 
 	}
 

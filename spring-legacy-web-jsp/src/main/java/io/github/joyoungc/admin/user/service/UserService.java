@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ public class UserService {
 	
 	@Autowired
 	ModelMapper modelMapper;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	public List<User> selectUser(User user) {
 		log.debug("## params : {}", user.getUserId());
@@ -49,6 +53,7 @@ public class UserService {
 	public void createUser(UserDTO.Create dto) {
 		log.debug("## params : {}", dto);
 		User user = modelMapper.map(dto, User.class);
+		user.setPassword(passwordEncoder.encode(dto.getPassword())); // 입력된 password를 암호화
 		userDao.createUser(user);
 	}
 

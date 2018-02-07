@@ -36,7 +36,7 @@ public class UserBatchService {
 		builder.addString("outputFile", fileName);
 		builder.addLong("currentTime", System.currentTimeMillis());
 		
-		JobExecution result = batchUtils.runBatchJob("adminJob", builder.toJobParameters());
+		JobExecution result = batchUtils.runBatchJob("userJob", builder.toJobParameters());
 		
 		return result;
 	}
@@ -45,7 +45,7 @@ public class UserBatchService {
 	 * 관리자 정보 파일생성 배치 Scheduler
 	 * @author 정조영 (2017-10-25)
 	 */ 
-	@Scheduled(cron="0 0/10 * * * ?") // 매시 10분마다 실행 
+	// @Scheduled(cron="0 0/10 * * * ?") // 매시 10분마다 실행 
 	public void executeAdminBatchScheduler() {
 		JobParametersBuilder builder = new JobParametersBuilder();
 		// target 데이트 포맷 양식 : yyyyMMdd_HH
@@ -57,7 +57,7 @@ public class UserBatchService {
 		builder.addString("outputFile", fileName);
 		builder.addLong("currentTime", System.currentTimeMillis());
 		
-		batchUtils.runBatchJob("adminJob", builder.toJobParameters());
+		batchUtils.runBatchJob("userJob", builder.toJobParameters());
 	}
 
 }

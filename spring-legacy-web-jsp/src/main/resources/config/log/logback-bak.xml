@@ -15,13 +15,13 @@
 	<logger name="org.springframework.web" level="INFO" additivity="false"> 
 		<appender-ref ref="STDOUT" />
 	</logger>
-	<logger name="org.springframework.jdbc" level="INFO" additivity="false"> 
+	<logger name="org.springframework.jdbc" level="DEBUG" additivity="false"> 
 		<appender-ref ref="STDOUT" />
 	</logger>	
-	<logger name="org.springframework.transaction" level="INFO" additivity="false"> 
+	<logger name="org.springframework.transaction" level="DEBUG" additivity="false"> 
 		<appender-ref ref="STDOUT" />
 	</logger>
-	<logger name="org.apache.ibatis" level="INFO" additivity="false"> 
+	<logger name="org.apache.ibatis" level="DEBUG" additivity="false"> 
 		<appender-ref ref="STDOUT" />
 	</logger>
 	<!-- 	
@@ -29,7 +29,7 @@
 		<appender-ref ref="STDOUT" />
 	</logger> 
 	-->
-	<logger name="org.springframework.batch" level="INFO" additivity="false"> 
+	<logger name="org.springframework.batch" level="DEBUG" additivity="false"> 
 		<appender-ref ref="STDOUT" />
 	</logger>	
 	
@@ -42,7 +42,7 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 	
-	<root level="INFO">  
+	<root level="DEBUG">  
 		<appender-ref ref="STDOUT" />  
 	</root>
 </included>

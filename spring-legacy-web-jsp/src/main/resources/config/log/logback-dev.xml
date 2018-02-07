@@ -51,7 +51,7 @@
 	</logger>
 	
 	<!-- Application Logger -->	
-	<logger name="io.github.joyoungc" level="DEBUG" additivity="false"> 
+	<logger name="${APPLICATION_BASE_PACKAGE}" level="DEBUG" additivity="false"> 
 		<appender-ref ref="SERVICE_LOG" />
 	</logger>  
  	

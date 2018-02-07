@@ -202,7 +202,7 @@ _ex) Role별 Method 명명 규칙_
 
 | - | Table이름 |  VO명 | 생성요청 | 수정요청 | 조회요청 | 응답 |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| Naming | TB_USER | User.java  | UserDTO.Create  | UserDTO.Update | UserDTO.Read | UserDTO.Response |
+| Naming | TB_ADM_USR | User.java  | UserDTO.Create  | UserDTO.Update | UserDTO.Read | UserDTO.Response |
 
 ```java
 public class UserDTO {
@@ -279,8 +279,8 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 
 - **SpringRootConfig.java**
    - ObjectMapper
-   - RestTemplate
    - ModelMapper
+   - RestTemplate
    - MultipartResolver (Apache Commons)   
    - CacheManager
 
@@ -746,7 +746,7 @@ public interface UserDao {
 			USER_NAME,
 			PASSWORD,
 			ENABLED
-		  FROM TB_USER
+		  FROM TB_ADM_USR
 		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(userId)">
 		 WHERE USER_ID = #{userId}
 		</if>
@@ -790,7 +790,7 @@ _ex) 자주 사용되는 접미사 목록_
 | STC | Statistics | 통계 관련 테이블 |
 
 - 표기 방식
-TB + '_' + <업무분류> + '_' + <의미있는 테이블명> + '_' + 접미사(Option) 
+TB + '\_' + <업무분류> + '\_' + <의미있는 테이블명> + '\_' + 접미사(Option) 
 `ex) 스피링배치 JOB 실행 테이블 : TB_BATCH_JOB_EXECUTION , 공통 파일 이력 테이블 : TB_COMN_FILE_HST`
 
 #### 2) Column 이름

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<!-- 로그 설정 -->
+	<property name="APPLICATION_BASE_PACKAGE" value="io.github.joyoungc" />
 	<property name="COMPONENT_ID" value="springlegacy" />
 	<property name="LOG_HOME" value="/projectlog/${COMPONENT_ID}/service" />   
 	<property name="ERROR_LOG_HOME" value="/projectlog/${COMPONENT_ID}/error" />

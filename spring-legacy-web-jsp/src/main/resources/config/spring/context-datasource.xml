@@ -5,8 +5,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/jee 
-		http://www.springframework.org/schema/jee/spring-jee.xsd">
-        
+		http://www.springframework.org/schema/jee/spring-jee-4.3.xsd">
+
+<!-- Oracle 이나 MySQL 환경에서 Datasource 설정시 사용 -->
 <!--  
     <beans profile="local">
     	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"> 

@@ -41,24 +41,29 @@ public class UserControllerTest {
 
 	@Test
 	public void getUserTest() throws Exception {
-		mockMvc.perform(get("/user/rest/users/joyoungc")).andDo(print()).andExpect(status().isOk())
+		mockMvc.perform(get("/user/rest/users/joyoungc"))
+				.andDo(print())
+				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.userId").value("joyoungc"));
 	}
 	
 	@Test
 	public void updateUserTest() throws Exception {
+		
 		UserDTO.Update dto = new UserDTO.Update();
-		dto.setUserName("Aiden");
+		dto.setUserName("aiden");
 		dto.setPassword("password");
 		
 		mockMvc.perform(put("/user/rest/users/joyoungc")
-				  .contentType(MediaType.APPLICATION_JSON_VALUE)
-				  .content(objectMapper.writeValueAsString(dto))
-				  ).andDo(print()).andExpect(status().isOk());
+					.contentType(MediaType.APPLICATION_JSON_VALUE)
+					.content(objectMapper.writeValueAsString(dto))
+				).andDo(print())
+				.andExpect(status().isOk());
 	}
 	
 	@Test
 	public void createUserTest() throws Exception {
+		
 		UserDTO.Create dto = new UserDTO.Create();
 		dto.setUserId("NewOne");
 		dto.setUserName("NewOne");
@@ -66,9 +71,10 @@ public class UserControllerTest {
 		dto.setEnabled(1);
 		
 		mockMvc.perform(post("/user/rest/users")
-				  .contentType(MediaType.APPLICATION_JSON_VALUE)
-				  .content(objectMapper.writeValueAsString(dto))
-				  ).andDo(print()).andExpect(status().isOk());
+					.contentType(MediaType.APPLICATION_JSON_VALUE)
+					.content(objectMapper.writeValueAsString(dto))
+				).andDo(print())
+				.andExpect(status().isOk());
 	}
 
 }

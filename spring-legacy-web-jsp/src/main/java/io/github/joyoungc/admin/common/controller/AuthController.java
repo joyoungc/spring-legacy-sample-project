@@ -15,8 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,23 +26,22 @@ public class AuthController {
 
 	@RequestMapping(value = "/login")
 	public String login() {
-		log.info("## login()");
 		return "login";
 	}
 
-	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+	@GetMapping(value = { "/", "/home" })
 	public String homePage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
 		return "welcome";
 	}
 
-	@RequestMapping(value = "/403", method = RequestMethod.GET)
+	@GetMapping(value = "/403")
 	public String accessDeniedPage(ModelMap model) {
 		model.addAttribute("user", getPrincipal());
 		return "common/error";
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@GetMapping(value = "/logout")
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {

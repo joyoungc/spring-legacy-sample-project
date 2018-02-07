@@ -14,9 +14,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Repository;
 
+import io.github.joyoungc.admin.common.util.Constants;
+
 @Configuration
 // * annotationClass : Dao Class에 선언될 annotation 설정 ( @Mapper or @Repository ) 
-@MapperScan(basePackages = "io.github.joyoungc", annotationClass = Repository.class) 
+@MapperScan(basePackages = Constants.BASE_PACKAGE, annotationClass = Repository.class) 
 public class MybatisConfig {
 	
 	 /**
@@ -33,7 +35,7 @@ public class MybatisConfig {
 
         // io.github.joyoungc.web.admin.model 패키지 이하의 model 클래스 이름을 짧은 별칭으로 등록
         // ; 으로 구분지어 다른 패키지들도 등록가능
-        factoryBean.setTypeAliasesPackage("io.github.joyoungc.admin.user.model;");
+        factoryBean.setTypeAliasesPackage(Constants.BASE_PACKAGE + ".admin.user.model;");
 
         // sql/**/*-mapper.xml로 지정된 모든 XML을 Mapper로 등록
         factoryBean.setMapperLocations(applicationContext.getResources("classpath:sql/**/*-mapper.xml"));
