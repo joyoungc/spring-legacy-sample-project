@@ -23,16 +23,8 @@ public class MessageResponse {
 	
 	private OutputData output; // Output from the dialog, including the response to the user, the nodes that were triggered, and log messages
 	
-	
 	@Data
 	public static class OutputData {
-		
-		/*	OutputData { 
-		log_messages (Array[LogMessage]): Up to 50 messages logged with the request. ,
-		text (Array[string]): An array of responses to the user. ,
-		nodes_visited (Array[string], optional): An array of the nodes that were triggered to create the response. ,
-		nodes_visited_details (Array[DialogNodeVisitedDetails], optional): An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
-		}*/		
 		
 		@JsonProperty("log_messages")
 		private List<Object> logMessage; // Up to 50 messages logged with the request.

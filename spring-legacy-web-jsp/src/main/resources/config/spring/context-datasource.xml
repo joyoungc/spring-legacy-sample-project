@@ -1,35 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jee="http://www.springframework.org/schema/jee"    
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/jee 
-		http://www.springframework.org/schema/jee/spring-jee-4.3.xsd">
+		http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/jdbc 
+		http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd">
 
-<!-- Oracle 이나 MySQL 환경에서 Datasource 설정시 사용 -->
-<!--  
-    <beans profile="local">
-    	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"> 
-			<property name="driverClassName"    value="${jdbc.driver}"/>
-			<property name="url"                value="${jdbc.url}"/>
-			<property name="username"           value="${jdbc.username}"/>
-			<property name="password"           value="${jdbc.password}"/>
-			<property name="initialSize"        value="${jdbc.initialSize}"/>
-			<property name="minIdle"            value="${jdbc.minIdle}"/>
-			<property name="maxIdle"            value="${jdbc.maxIdle}"/>
-			<property name="maxTotal"           value="${jdbc.maxTotal}"/>
-			<property name="maxWaitMillis"      value="${jdbc.maxWaitMillis}"/>
-			<property name="validationQuery"    value="${jdbc.validationQuery}"/>
-			<property name="testWhileIdle"      value="${jdbc.testWhileIdle}"/>
-			<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}"/>
-			<property name="defaultAutoCommit"  value="${jdbc.defaultAutoCommit}"/>  
+	<jdbc:embedded-database id="dataSource" type="H2">
+		<jdbc:script location="classpath:sql/create-db-h2.sql" />
+		<jdbc:script location="classpath:sql/insert-data.sql" />
+	</jdbc:embedded-database>
+
+	<!-- Oracle 이나 MySQL 환경에서 Connection Pool 설정시 사용 -->
+	<!--  
+	<beans profile="local">
+		<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+			destroy-method="close">
+			<property name="driverClassName" value="${jdbc.driver}" />
+			<property name="url" value="${jdbc.url}" />
+			<property name="username" value="${jdbc.username}" />
+			<property name="password" value="${jdbc.password}" />
+			<property name="initialSize" value="${jdbc.initialSize}" />
+			<property name="minIdle" value="${jdbc.minIdle}" />
+			<property name="maxIdle" value="${jdbc.maxIdle}" />
+			<property name="maxTotal" value="${jdbc.maxTotal}" />
+			<property name="maxWaitMillis" value="${jdbc.maxWaitMillis}" />
+			<property name="validationQuery" value="${jdbc.validationQuery}" />
+			<property name="testWhileIdle" value="${jdbc.testWhileIdle}" />
+			<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+			<property name="defaultAutoCommit" value="${jdbc.defaultAutoCommit}" />
 		</bean>
-    </beans>
-    
-    <beans profile="!local">
-    	<jee:jndi-lookup id="dataSource" jndi-name="dataSourceName" resource-ref="true" />
-    </beans>
--->
-    
+	</beans>
+	-->
+
+	<!-- <beans profile="!local"> <jee:jndi-lookup id="dataSource" jndi-name="dataSourceName" 
+		resource-ref="true" /> </beans> -->
+
 </beans>

@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.github.joyoungc.chatbot.model.MessageRequest;
 import io.github.joyoungc.chatbot.model.MessageResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -21,26 +23,29 @@ import lombok.extern.slf4j.Slf4j;
 public class RestTemplateTest {
 	
 	@Autowired
-	RestTemplate basicAuthRestTemplate;
+	private RestTemplate conversationRestTemplate;
 	
 	@Value("${watson.conversation.url}")
-	String watsonUrl;
+	private String watsonUrl;
+	
+	@Autowired
+	ObjectMapper mapper;
 	
 	@Test
-	public void watsonConversationApiTest() {
+	public void watsonConversationApiTest() throws Exception {
 		
 		String workspaceId = "5d6ce777-6bb3-45f1-97ba-33e0db08abc1";
 		String url = watsonUrl + "/v1/workspaces/" + workspaceId + "/message?version=2017-05-26";
 		
 		MessageRequest requestMessage = new MessageRequest();
-		requestMessage.setInput(new MessageRequest.MessageInput("꽃다발 있어"));
+		requestMessage.setInput(new MessageRequest.MessageInput("답답하다"));
 		
 		HttpEntity<MessageRequest> request = new HttpEntity<MessageRequest>(requestMessage);
 		
-		ResponseEntity<MessageResponse> response = basicAuthRestTemplate.exchange(url, HttpMethod.POST, request,
+		ResponseEntity<MessageResponse> response = conversationRestTemplate.exchange(url, HttpMethod.POST, request,
 				MessageResponse.class);
 		
-		log.debug("response.getBody() : {}", response.getBody());
+		log.debug("response.getBody() : \n {}", mapper.writeValueAsString(response.getBody()));
 		
 	}
 
