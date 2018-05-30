@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,8 +19,11 @@ import io.github.joyoungc.admin.user.model.User.Authority;
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
-	@Autowired
-	private UserDao userDao;
+	private final UserDao userDao;
+	
+	public CustomUserDetailService(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {

@@ -3,7 +3,6 @@ package io.github.joyoungc.admin.user.service;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +17,17 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserService {
 	
-	@Autowired
-	private UserDao userDao;
+	private final UserDao userDao;
 	
-	@Autowired
-	ModelMapper modelMapper;
+	private final ModelMapper modelMapper;
 	
-	@Autowired
-	PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
+	
+	public UserService(UserDao userDao, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+		this.userDao = userDao;
+		this.modelMapper = modelMapper;
+		this.passwordEncoder = passwordEncoder;
+	}
 	
 	public List<User> selectUser(User user) {
 		log.debug("## params : {}", user.getUserId());

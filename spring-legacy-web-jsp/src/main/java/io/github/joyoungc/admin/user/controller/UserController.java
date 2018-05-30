@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,15 +22,18 @@ import io.github.joyoungc.admin.user.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
 	/***
 	 * 사용자 Page
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/list")
+	@GetMapping("/list")
 	public String list() {
 		return "/user/list";
 	}

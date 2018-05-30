@@ -9,8 +9,6 @@ package io.github.joyoungc.admin.user.service;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import io.github.joyoungc.admin.common.util.BatchUtils;
@@ -20,9 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserBatchService {
 	
-	@Autowired
-	private BatchUtils batchUtils;
+	private final BatchUtils batchUtils;
 	
+	public UserBatchService(BatchUtils batchUtils) {
+		this.batchUtils = batchUtils;
+	}
+
 	public JobExecution executeBatch() throws Exception {
 		
 		JobParametersBuilder builder = new JobParametersBuilder();

@@ -1,7 +1,5 @@
 package io.github.joyoungc.admin.common.configuration;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +18,11 @@ import io.github.joyoungc.admin.common.service.CustomUserDetailService;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-    @Autowired
-	DataSource dataSource;
+    private final CustomUserDetailService userDetailService;
     
-    @Autowired
-    CustomUserDetailService userDetailService;
+	public SpringSecurityConfig(CustomUserDetailService userDetailService) {
+		this.userDetailService = userDetailService;
+	}
 
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
