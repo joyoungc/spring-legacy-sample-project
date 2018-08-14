@@ -1,6 +1,6 @@
 /**
  * Auth Controller
- * 
+ *
  * @author	Joyoungc
  * @date	2017.10.20
  */
@@ -59,6 +59,7 @@ public class AuthController {
 		} else {
 			userName = principal.toString();
 		}
+		log.debug("## userName : {}", userName);
 		return userName;
 	}
 

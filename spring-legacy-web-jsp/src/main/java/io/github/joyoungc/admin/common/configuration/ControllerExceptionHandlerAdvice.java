@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice
-public class ControllerExceptionHanderAdvice {
+public class ControllerExceptionHandlerAdvice {
 
 	/***
 	 * BindException Handler

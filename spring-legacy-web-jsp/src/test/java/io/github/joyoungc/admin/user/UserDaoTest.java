@@ -1,11 +1,12 @@
 package io.github.joyoungc.admin.user;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.number.OrderingComparison.*;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.github.joyoungc.admin.user.dao.UserDao;
+import io.github.joyoungc.admin.user.mapper.UserMapper;
 import io.github.joyoungc.admin.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserDaoTest {
 
 	@Autowired
-	private UserDao userDao;
+	private UserMapper userMapper;
 
 	private String testIdForSelectUpdate;
 	private String testIdForDelete;
@@ -40,14 +41,14 @@ public class UserDaoTest {
 	@Test
 	public void selectUserTest() {
 		User user = new User();
-		List<User> users = userDao.selectUser(user);
+		List<User> users = userMapper.selectUser(user);
 		assertThat(users.size(), greaterThan(0));
 	}
 
 	@Test
 	@SuppressWarnings("unchecked")
 	public void getUserTest() {
-		User user = userDao.getUser(testIdForSelectUpdate);
+		User user = userMapper.getUser(testIdForSelectUpdate);
 		assertThat(user.getUserId(), is(testIdForSelectUpdate));
 		log.debug("## getAuthorities : {}", user.getAuthorities());
 		assertThat(user.getAuthorities(), hasSize(2));
@@ -61,10 +62,10 @@ public class UserDaoTest {
 		user.setUserId(testIdForSelectUpdate);
 		user.setUserName("테스트");
 
-		int resultCount = userDao.updateUser(user);
+		int resultCount = userMapper.updateUser(user);
 		assertThat(resultCount, is(1));
 
-		User result = userDao.getUser(testIdForSelectUpdate);
+		User result = userMapper.getUser(testIdForSelectUpdate);
 		assertThat(result.getUserName(), is("테스트"));
 	}
 
@@ -76,20 +77,20 @@ public class UserDaoTest {
 		user.setPassword("password");
 		user.setEnabled(true);
 
-		int resultCount = userDao.createUser(user);
+		int resultCount = userMapper.createUser(user);
 		assertThat(resultCount, is(1));
 
-		User result = userDao.getUser("createTest");
+		User result = userMapper.getUser("createTest");
 		assertThat(result.getUserId(), is(user.getUserId()));
 		assertThat(result.getEnabled(), is(true));
 	}
 
 	@Test
 	public void deleteUserTest() {
-		int resultCount = userDao.deleteUser(testIdForDelete);
+		int resultCount = userMapper.deleteUser(testIdForDelete);
 		assertThat(resultCount, is(1));
 
-		User result = userDao.getUser(testIdForDelete);
+		User result = userMapper.getUser(testIdForDelete);
 		assertThat(result, nullValue());
 	}
 

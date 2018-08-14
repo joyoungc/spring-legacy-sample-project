@@ -12,17 +12,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import io.github.joyoungc.admin.common.model.UserPrincipal;
-import io.github.joyoungc.admin.user.dao.UserDao;
+import io.github.joyoungc.admin.user.mapper.UserMapper;
 import io.github.joyoungc.admin.user.model.User;
 import io.github.joyoungc.admin.user.model.User.Authority;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
-	private final UserDao userDao;
-	
-	public CustomUserDetailService(UserDao userDao) {
-		this.userDao = userDao;
+	private final UserMapper userMapper;
+
+	public CustomUserDetailService(UserMapper userMapper) {
+		this.userMapper = userMapper;
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		/**
 		 * 로그인할 사용자 정보 조회
 		 */
-		User user = userDao.getUser(userId);
+		User user = userMapper.getUser(userId);
 
 		if (user == null) {
 			throw new UsernameNotFoundException("아이디가 일치하지 않습니다.");

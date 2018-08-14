@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -12,15 +13,20 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Repository;
 
 import io.github.joyoungc.admin.common.util.Constants;
 
+/**
+* Mybatis 설정 정보에 대한 java config
+* <ul>
+* <li> @MapperScan : Scan할 annotation 설정 ( @Mapper ) </li>
+* </ul>
+* @author joyoungc
+*/
 @Configuration
-// * annotationClass : Dao Class에 선언될 annotation 설정 ( @Mapper or @Repository ) 
-@MapperScan(basePackages = Constants.BASE_PACKAGE, annotationClass = Repository.class) 
+@MapperScan(basePackages = Constants.BASE_PACKAGE, annotationClass = Mapper.class)
 public class MybatisConfig {
-	
+
 	 /**
      * MyBatis의 {@link org.apache.ibatis.session.SqlSessionFactory}을 생성하는 팩토리빈을 등록한다.
      */
@@ -39,18 +45,18 @@ public class MybatisConfig {
 
         // sql/**/*-mapper.xml로 지정된 모든 XML을 Mapper로 등록
         factoryBean.setMapperLocations(applicationContext.getResources("classpath:sql/**/*-mapper.xml"));
-        
+
         org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-        
+
         // null 처리시 에러 방지 ex) Oracle - 부적합한 열 유형 : 1111
         configuration.setJdbcTypeForNull(JdbcType.NULL);
-        
+
         // SELECT 문에 있는 column을 CamelCase로 자동 매핑 ex) USER_NAME -> userName
         configuration.setMapUnderscoreToCamelCase(true);
-        
+
         // 데이터가 null 값이더라도 setter를 호출한다. resultType을 Map으로 설정시 null 값이 제외되는 현상 방지)
         configuration.setCallSettersOnNulls(true);
-        
+
         factoryBean.setConfiguration(configuration);
 
         return factoryBean;

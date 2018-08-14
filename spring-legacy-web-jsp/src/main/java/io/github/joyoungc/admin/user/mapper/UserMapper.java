@@ -1,19 +1,19 @@
 /**
- * UserDao
- * 
+ * UserMapper
+ *
  * @author	Joyoungc
  * @date	2017.10.20
  */
-package io.github.joyoungc.admin.user.dao;
+package io.github.joyoungc.admin.user.mapper;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import io.github.joyoungc.admin.user.model.User;
 
-@Repository
-public interface UserDao {
+@Mapper
+public interface UserMapper {
 
 	List<User> selectUser(User user);
 
@@ -24,5 +24,5 @@ public interface UserDao {
 	int createUser(User user);
 
 	int deleteUser(String userId);
-	
+
 }
