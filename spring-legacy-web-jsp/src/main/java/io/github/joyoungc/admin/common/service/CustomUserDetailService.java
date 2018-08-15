@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import io.github.joyoungc.admin.common.model.UserPrincipal;
+import io.github.joyoungc.admin.common.model.AdminUserPrincipal;
 import io.github.joyoungc.admin.user.mapper.UserMapper;
 import io.github.joyoungc.admin.user.model.User;
 import io.github.joyoungc.admin.user.model.User.Authority;
@@ -48,7 +48,7 @@ public class CustomUserDetailService implements UserDetailsService {
 			}
 		}
 
-		return new UserPrincipal(user.getUserId(), user.getPassword(), user.getEnabled(), true, true, true, authorities,
+		return new AdminUserPrincipal(user.getUserId(), user.getPassword(), user.getEnabled(), true, true, true, authorities,
 				user.getUserName());
 
 	}

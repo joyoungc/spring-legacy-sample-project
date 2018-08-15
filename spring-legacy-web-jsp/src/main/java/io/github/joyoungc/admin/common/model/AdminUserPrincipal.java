@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import lombok.Getter;
 
 @Getter
-public class UserPrincipal extends User {
+public class AdminUserPrincipal extends User {
 	
 	private static final long serialVersionUID = 3116022417318157299L;
 	
@@ -18,7 +18,7 @@ public class UserPrincipal extends User {
 	private String userId;
 	private String userName;
 
-	public UserPrincipal(String userId, String password, boolean enabled, boolean accountNonExpired,
+	public AdminUserPrincipal(String userId, String password, boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities, String userName) {
 		

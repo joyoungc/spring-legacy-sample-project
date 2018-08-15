@@ -1,6 +1,11 @@
+/***
+ * SpringSecurityConfig 
+ * 
+ * @author 	joyoungc
+ * @date 	2017.10.25
+ */
 package io.github.joyoungc.admin.common.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -24,18 +29,24 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		this.userDetailService = userDetailService;
 	}
 
-	@Autowired
-	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setUserDetailsService(userDetailService);
-		provider.setPasswordEncoder(passwordEncoder());
-		auth.authenticationProvider(provider);
+	/***
+	 * 사용자 인증정보를 DB와 연동, 암호화된 Password를 위한 encoder 설정
+	 */
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		DaoAuthenticationProvider authProvier = new DaoAuthenticationProvider();
+		authProvier.setUserDetailsService(userDetailService);
+		authProvier.setPasswordEncoder(passwordEncoder());
+		auth.eraseCredentials(false);
+		auth.authenticationProvider(authProvier);
 	}
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
   	  	http
   	  		.csrf().disable()
+  	  		.headers().frameOptions().sameOrigin()
+  	  		.and()
   	  		.formLogin() // 로그인 설정
 		  	  	.loginPage("/login")
 		  	  	// .defaultSuccessUrl("/welcome")
