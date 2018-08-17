@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.github.joyoungc.admin.common.interceptor.RestApiRequestLoggingInterceptor;
 
 @Configuration
-public class SpringRootConfig {
+public class SpringCommonConfig {
 	
 	/***
 	 * Jackson ObjectMapper 빈 생성

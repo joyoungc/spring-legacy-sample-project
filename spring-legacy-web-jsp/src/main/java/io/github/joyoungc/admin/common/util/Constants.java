@@ -1,12 +1,19 @@
 package io.github.joyoungc.admin.common.util;
 
-public class Constants {
-	
+/**
+ * 공통 상수 class
+ *
+ * @author joyoungc
+ */
+public final class Constants {
+
+	private Constants() {};
+
 	public static final String BASE_PACKAGE = "io.github.joyoungc";
 	public static final String RESULT_MESSAGE = "resultMessage";
 	public static final String YES = "Y";
 	public static final String NO = "N";
-	
+
 	public static final int MAX_REQUEST_REPEAT_COUNT = 5;
 	// public static final Map<String, String> CONFIG_MAP;
 

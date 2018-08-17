@@ -32,10 +32,6 @@
 	<logger name="org.springframework.batch" level="INFO" additivity="false"> 
 		<appender-ref ref="STDOUT" />
 	</logger>	
-	
-	<logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" additivity="false">
-		<appender-ref ref="STDOUT" />
-	</logger>	
 	  	
 	<!-- Application Logger -->	
 	<logger name="${APPLICATION_BASE_PACKAGE}" level="INFO" additivity="false"> 

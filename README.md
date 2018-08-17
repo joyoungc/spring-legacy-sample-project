@@ -277,7 +277,7 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
  
 `파일위치 : {PROJECT_ROOT}/src/main/java/io/github/joyoungc/web/common/configuration`
 
-- **SpringRootConfig.java**
+- **SpringCommonConfig.java**
    - ObjectMapper
    - ModelMapper
    - RestTemplate
@@ -397,19 +397,22 @@ Java Config(Annotation기반)으로 구성된 Configuration 목록입니다.
 @Service
 public class UserService {
    
-   @Autowired
-   private UserDao userDao;
+    private final UserMapper userMapper;
    
-   public List<User> selectUser(User user) {
+   	public UserService(final UserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
+   
+    public List<User> selectUser(User user) {
 
-      // 잘못된 사용예 1 : 문자열 조합의 비용 발생
-      log.debug("## params : " + user.getUserId());
+		// 잘못된 사용예 1 : 문자열 조합의 비용 발생
+		log.debug("## params : " + user.getUserId());
 
-      // 올바른 예 : 파라미터 formatting을 적용하여 사용
-      log.debug("## params : {}", user.getUserId());
+		// 올바른 예 : 파라미터 formatting을 적용하여 사용
+		log.debug("## params : {}", user.getUserId());
 
-      return userDao.selectUser(user);
-   }
+      return userMapper.selectUser(user);
+    }
 
 }
 
@@ -595,8 +598,8 @@ javax.validation.constraints.NotBlank.message={0} must not be blank
 <a name="4_2_1"/>
 
 ### 4.2.1. View
-- src/main/webapp/WEB-INF/jsp 폴더 및에 업무레벨별로 폴더 생성 후 jsp 파일을 생성한다. 
-- 페이지별 공통 css, js import를 위해 `<head>` 태그 사이에 ```java <jsp:include page="/WEB-INF/jsp/common/head.jsp" /> ``` 를 삽입한다.
+- src/main/webapp/WEB-INF/jsp 폴더 및에 업무레벨별로 폴더 생성 후 jsp 파일을 생성합니다. 
+- 페이지별 공통 css, js import를 위해 `<head>` 태그 사이에 ```java <jsp:include page="/WEB-INF/jsp/common/head.jsp" /> ``` 를 삽입합니다.
 ```html
 <html lang="ko">
 <head>
@@ -608,6 +611,7 @@ javax.validation.constraints.NotBlank.message={0} must not be blank
 - Tag library 종류
 ```java
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 		/* JSTL Core */
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>	/* JSTL Formmater */
 <%@ taglib prefix="sp" uri="http://www.springframework.org/tags"%>		/* Spring */
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>	/* Spring Security */
 ```
@@ -621,8 +625,12 @@ javax.validation.constraints.NotBlank.message={0} must not be blank
 @RequestMapping("/user")	// 2)
 public class UserController {
 
-	@Autowired
-	private UserService userService;  /* Service DI */
+	private final UserService userService;
+
+	/* 생성자를 통한 Service DI */
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
 	/***
 	 * 사용자 Page
@@ -667,19 +675,23 @@ public class UserController {
 @Service   // 1)
 public class UserService {
 	
-	@Autowired
-	private UserDao userDao;  /* Dao DI */
-	
-	@Autowired
-	ModelMapper modelMapper;
+	private final UserMapper userMapper;
+
+	private final ModelMapper modelMapper;
+
+	/* 생성자를 통한  DI */
+	public UserService(final UserMapper userMapper, final ModelMapper modelMapper) {
+		this.userMapper = userMapper;
+		this.modelMapper = modelMapper;
+	}
 	
 	public List<User> selectUser(User user) {
 		log.debug("## params : {}", user.getUserId());
-		return userDao.selectUser(user);
+		return userMapper.selectUser(user);
 	}
 
 	public User getUser(String userId) {
-		return userDao.getUser(userId);
+		return userMapper.getUser(userId);
 	}
 
 	@Transactional  // 2)
@@ -687,7 +699,7 @@ public class UserService {
 		User user = modelMapper.map(dto, User.class);
 		user.setUserId(userId);
 		log.debug("## user : {}", user);
-		userDao.updateUser(user);
+		userMapper.updateUser(user);
 	}	
 ```
 
@@ -700,10 +712,10 @@ public class UserService {
 
 <a name="4_2_4"/>
 
-### 4.2.4. Dao
+### 4.2.4. Mapper
 ```java
-@Repository
-public interface UserDao {
+@Mapper
+public interface UserMapper {
 	
 	List<User> selectUser(User user);
 
@@ -711,9 +723,9 @@ public interface UserDao {
 	
 	void updateUser(User user);
 ```
-#### 1) Repository 스테레오 타입 설정
-- Dao는 interface로 생성합니다.
-- @Repository 어노테이션 설정을 하여 Spring Bean에 등록되도록 합니다.
+#### 1) Mapper 스테레오 타입 설정
+- Mapper는 interface로 생성합니다.
+- @Mapper 어노테이션 설정을 하여 Spring Bean에 등록되도록 합니다.
 
 
 #### 2) Method 작성
@@ -737,7 +749,7 @@ public interface UserDao {
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="io.github.joyoungc.web.user.dao.UserDao">  <!-- (1) 네임스페이스 -->
+<mapper namespace="io.github.joyoungc.web.user.mapper.UserMapper">  <!-- (1) 네임스페이스 -->
 
 	<!-- 사용자 조회 -->
 	<select id="selectUser" parameterType="User" resultType="User"> <!-- (2) parameterType, resultType -->
@@ -756,7 +768,7 @@ public interface UserDao {
 ```
 - SQL Mapper 작성시 네임스페이스는 Dao interface 로 설정합니다. 
 - Mapper에서 parameterType 과 resultType은 java.util.Map 사용을 지양하고, Value Object를 기반으로 설정하도록 합니다.
-- Mapper XML은 Well-formed 문서로 작성되어야 한다. "<", ">" 와 같은 특수문자는 `&lt`, `&rt`로 치환해서 사용하거나,
+- Mapper XML은 Well-formed 문서로 작성되어야 합니다. "<", ">" 와 같은 특수문자는 `&lt`, `&rt`로 치환해서 사용하거나,
 쿼리 내용을 그대로 표현하기 위해 <![CDATA[ ]]> 를 사용합니다. 
 
 #### 3) 주의 사항
