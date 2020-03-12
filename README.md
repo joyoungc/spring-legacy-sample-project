@@ -1,4 +1,4 @@
-<img src="images/spring-framework.png" width="80" height="80"/> spring-legacy-sample-project (작업중)
+<img src="images/spring-framework.png" width="80" height="80"/> spring-legacy-sample-project
 ==========================
 
 # Table of Contents
@@ -45,12 +45,7 @@
 ### &nbsp; [4.3.1. Database Naming Rules](#4_3_1)
 ### &nbsp; [4.3.2. INDEX](#4_3_2)
 ## &nbsp; [4.4. 테스트](#4_4)
-### &nbsp;&nbsp; [4.4.1. ](#)
-## &nbsp; [4.5. 빌드 및 배포](#)
-### &nbsp;&nbsp; [4.5.1. Project 빌드](#)
-### &nbsp;&nbsp; [4.5.2. 서버 배포](#)
-## &nbsp; [4.6. 서버 모니터링](#)
-### &nbsp;&nbsp; [4.6.1. Log 분석](#)
+### &nbsp;&nbsp; [4.4.1. Assert](#)
 
 <a name="1"/>
 
@@ -957,9 +952,7 @@ SELECT ENAME FROM EMP
 
 ## 4.4. 테스트
 
-### 4.4.x. 테스트 코드 작성
-
-### 4.4.x. Cross Reference
+### 4.4.1. Assert
 
 _ex) 향상된 assertThat을 이용해 기존 assert method 대체_ ([The Benefits of Using assertThat over other Assert Methods in Unit Tests](https://objectpartners.com/2013/09/18/the-benefits-of-using-assertthat-over-other-assert-methods-in-unit-tests/))
 
@@ -973,7 +966,3 @@ _ex) 향상된 assertThat을 이용해 기존 assert method 대체_ ([The Benefi
 |assertTrue(1 > 3);|assertThat(1, greaterThan(3));|org.hamcrest.number.OrderingComparison.greaterThan|The error message is similar to the pattern above rather than "java.lang.AssertionError" OrderingComparison also contains: "comparesEqualTo", "greaterThanOrEqualTo", "lessThan" and "lessThanOrEqualTo"|
 |assertTrue("abc".contains("d"));|assertThat("abc", containsString("d"));|oorg.hamcrest.core.StringContains.containsString|The error message is similar to the pattern above.|
 |assertTrue("abc".contains("d"));|assertThat("abc", containsString("d"));|oorg.hamcrest.core.StringContains.containsString|The error message is similar to the pattern above. See also in the same package: StringStartsWith, StringEndsWith|
-
-## 4.5. 빌드 및 배포
-
-## 4.6. 서버 모니터링
