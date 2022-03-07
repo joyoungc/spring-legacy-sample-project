@@ -16,7 +16,7 @@
 		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
 
 		<spring.version>4.3.21.RELEASE</spring.version>
-		<spring-security.version>4.2.7.RELEASE</spring-security.version>
+		<spring-security.version>5.2.10.RELEASE</spring-security.version>
 		<spring-batch.version>3.0.10.RELEASE</spring-batch.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<logback.version>1.2.3</logback.version>
