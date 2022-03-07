@@ -16,17 +16,17 @@
 		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
 
 		<spring.version>4.3.21.RELEASE</spring.version>
-		<spring-security.version>4.2.7.RELEASE</spring-security.version>
-		<spring-batch.version>3.0.10.RELEASE</spring-batch.version>
+		<spring-security.version>4.2.20.RELEASE</spring-security.version>
+		<spring-batch.version>4.0.0.RELEASE</spring-batch.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<logback.version>1.2.3</logback.version>
-		<lombok.version>1.16.20</lombok.version>
+		<lombok.version>1.18.20</lombok.version>
 		<modelmapper.version>1.1.0</modelmapper.version>
 		<mybatis.version>3.5.6</mybatis.version>
 		<mybatis-spring.version>1.3.1</mybatis-spring.version>
 		<json-path.version>2.2.0</json-path.version>
 		<validation-api.version>2.0.0.Final</validation-api.version>
-		<hibernate-validator.version>6.0.4.Final</hibernate-validator.version>
+		<hibernate-validator.version>6.2.3.Final</hibernate-validator.version>
 		<junit.version>4.12</junit.version>
 		<assertj.version>3.9.1</assertj.version>
 		<hamcrest.version>1.3</hamcrest.version>
@@ -283,7 +283,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate-validator.version}</version>
 		</dependency>
@@ -338,14 +338,14 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>${maven-war-plugin.version}</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-war-plugin</artifactId>-->
+<!--				<version>${maven-war-plugin.version}</version>-->
+<!--				<configuration>-->
+<!--					<failOnMissingWebXml>false</failOnMissingWebXml>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 </project>

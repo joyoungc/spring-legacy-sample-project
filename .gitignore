@@ -6,3 +6,9 @@ RemoteSystemsTempFiles/
 .project
 /Servers/
 /.README.md.html
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
